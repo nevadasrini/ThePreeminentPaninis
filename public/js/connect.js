@@ -58,7 +58,15 @@ function createCollectionItem(name, desc, profilePic, infoLink, messageLink){
     document.getElementsByClassName("collection")[0].appendChild(item);
 }
 
-let matched = false;
+function checkIfEmpty() {
+    let coll = document.getElementsByClassName("collection")[0];
+    if (coll.childElementCount == 0)
+    {
+        coll.innerHTML = "<h5 class=\"header col s12 light center\" style=\"padding-bottom: 7px\">No matches found.</h5>"
+    }
+}
+
+let matched = true;
 
 function toggleHidden() {
     selectedMatch = document.getElementsByClassName("matched");
@@ -90,3 +98,4 @@ function toggleHidden() {
 }
 
 toggleHidden();
+checkIfEmpty();
