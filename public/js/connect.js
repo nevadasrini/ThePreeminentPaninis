@@ -19,7 +19,6 @@ function createCollectionItem(){
     
     info.classList.add("secondary-content");
     message.classList.add("secondary-content");
-    alert(2);
     info.href = "#!";
     message.href = "#!";
     let infoIcon = document.createElement("i")
@@ -27,6 +26,8 @@ function createCollectionItem(){
     
     infoIcon.classList.add("material-icons");
     messageIcon.classList.add("material-icons");
+    infoIcon.textContent = "info";
+    messageIcon.textContent = "message";
 
     info.appendChild(infoIcon);
     message.appendChild(messageIcon);
@@ -39,7 +40,6 @@ function createCollectionItem(){
     item.appendChild(message);
     
     document.getElementsByClassName("collection")[0].appendChild(item);
-    alert(4);
 }
 
 let matched = false;
