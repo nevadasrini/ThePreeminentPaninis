@@ -34,14 +34,15 @@ function createCollectionItem(name, desc, profilePic, infoLink, messageLink){
     let message = document.createElement("a");
     
     info.classList.add("secondary-content");
+    info.style.paddingRight = "45px";
     message.classList.add("secondary-content");
     info.href = infoLink;
     message.href = messageLink;
     let infoIcon = document.createElement("i")
     let messageIcon = document.createElement("i")
     
-    infoIcon.classList.add("material-icons");
-    messageIcon.classList.add("material-icons");
+    infoIcon.classList.add("material-icons", "small");
+    messageIcon.classList.add("material-icons", "small");
     infoIcon.textContent = "info";
     messageIcon.textContent = "message";
 
