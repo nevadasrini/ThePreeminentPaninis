@@ -43,6 +43,10 @@
       <div class="row center">
         <a href="login.html" id="download-button" class="btn-small waves-effect waves-light blue">Log In</a>
       </div>
+      
+      <div class="row center">
+        <button onclick="getUserInfo()" id="download-button" class="btn-small waves-effect waves-light blue">test</button>
+      </div>
       <br><br>
 
     </div>
@@ -175,8 +179,12 @@
     <!-- TODO: Add SDKs for Firebase products that you want to use
         https://firebase.google.com/docs/web/setup#available-libraries -->
     <script src="/__/firebase/7.18.0/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-app.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-firestore.js"></script>
 
     <!-- Initialize Firebase -->
     <script src="/__/firebase/init.js"></script>
+    <script src="js/queries.js"></script>
   </body>
 </html>

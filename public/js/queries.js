@@ -14,16 +14,14 @@ firebase.initializeApp(firebaseConfig);
 analytics = firebase.analytics();
 firestore = firebase.firestore();
 
-alert("hi");
+alert("na");
 /**
- * 
- * 
- * 
- * 
  * @param {string} userToken - identifier of user info wanted
  */
 
-$(window).on('load resize scroll', function getUserInfo(userToken){
-    let name = firebase.collection("users").where("Document ID", "===", "EInZsVFeXl5ea0PwxwGx").get("name");
+function getUserInfo(){
+    alert("hi");
+    let name = firestore.collection("users").where("name", "==", "John Steinbeck").get("field");
+    alert("nah");
     alert(name);
-})
+}
