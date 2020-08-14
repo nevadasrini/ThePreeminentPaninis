@@ -1,4 +1,4 @@
-firestore = firebase.firestore();
+
 
 class User{
 /**
@@ -21,24 +21,21 @@ class User{
     } 
 };
 
-let Query = {
+
   /**
    * @param {string} userToken - identifier of user info wanted
    */
 
-      getUserInfo(userToken){
-        alert(userToken);
-        let docRef = firestore.collection("users").doc(userToken);
-        docRef.get().then(
-          function(doc) {
-              if(doc.exists) { 
-                console.log(doc.data());
-                return doc.data();
-              }
+
+function getUserInfo(userToken){
+    alert(userToken);
+    let docRef = db.collection("users").doc(userToken);
+    docRef.get().then(
+      function(doc) {
+          if(doc.exists) { 
+            console.log(doc.data());
+            return doc.data();
           }
     ).catch((error) => console.log(error));
   }
-};
 
-//export {firestore};
-export default Query;
