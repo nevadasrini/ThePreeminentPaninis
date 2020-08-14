@@ -1,6 +1,7 @@
+import {Query} from './queries.js';
 
 createCollectionItem("Bryan Adams", "I used to be good at singing, but now I'm a full-stack developer.", null, "#!","#!");
-
+Query.getUserInfo(EInZsVFeXl5ea0PwxwGx);
 
 
 function createCollectionItem(name, desc, profilePic, infoLink, messageLink){

@@ -18,25 +18,27 @@ class User{
       this.phone = phone;
       this.pro = pro;
       this.skills = skills;
-    }
+    } 
+};
 
-    
-}
+let Query = {
+  /**
+   * @param {string} userToken - identifier of user info wanted
+   */
 
-/**
- * @param {string} userToken - identifier of user info wanted
- */
-
-function getUserInfo(userToken){
-    alert(userToken);
-    let docRef = firestore.collection("users").doc(userToken);
-    docRef.get().then(
-      function(doc) {
-          if(doc.exists) { 
-            console.log(doc.data());
-            return doc.data();
+      getUserInfo(userToken){
+        alert(userToken);
+        let docRef = firestore.collection("users").doc(userToken);
+        docRef.get().then(
+          function(doc) {
+              if(doc.exists) { 
+                console.log(doc.data());
+                return doc.data();
+              }
           }
-      }
-  ).catch((error) => console.log(error));
-}
+    ).catch((error) => console.log(error));
+  }
+};
 
+//export {firestore};
+export default Query;
