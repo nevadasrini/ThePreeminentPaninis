@@ -3,16 +3,17 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>Starter Template - Materialize</title>
+  <title>Chat | Connect-COV</title>
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/chat.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 <body>
   <nav class="light-blue lighten-1" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="index.html" class="brand-logo">Logo</a>
+    <div class="nav-wrapper container"><a id="logo-container" href="index.html" class="brand-logo">Chat</a>
       <ul class="right hide-on-med-and-down">
         <li><a href="index.html">Home</a></li>
         <li class="logged-in"><a href = "connect.html" class="modal-trigger">Connect</a></li> 
@@ -40,7 +41,35 @@
     <div class="container">
       <h1 class="header center orange-text">Chat</h1>
       <br><br>
+      <div id= "chat-container">
+        <div id="search-container">
+            <input type = "text" placeholder="Search" />
+            
+        </div>
+        <div id="conversation-list">
 
+            
+        </div>
+        <div id="new-message-container">
+            <a href="#">+</a>
+            
+        </div>
+        <div id="chat-title">
+            <span> Daryl Duckmanton</span>
+            <img src="trashlogo.jpg" alt="Delete Conversation" height = "40px" width = "40px" />
+            
+        </div>
+        <div id="chat-message-list">
+
+            
+        </div>
+        <div id="chat-form">
+
+            
+        </div>
+
+
+      </div>
     </div>
   </div>
 
@@ -97,6 +126,7 @@
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
+  <script src="js/chat.js"></script>
 
   </body>
 </html>

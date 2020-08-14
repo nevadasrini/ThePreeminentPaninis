@@ -13,7 +13,7 @@
 <body>
 
   <nav class="light-blue lighten-1" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="index.html" class="brand-logo">Logo</a>
+    <div class="nav-wrapper container"><a id="logo-container" href="index.html" class="brand-logo">Connect</a>
       <ul class="right hide-on-med-and-down">
         <li><a href="index.html">Home</a></li>
         <li class="logged-in"><a href = "connect.html" class="modal-trigger">Connect</a></li> 
@@ -40,11 +40,9 @@
     <div class="container center">
       <br><br>
       <h2 class="header center orange-text">Connect</h2>
-      
-      <div class = "unmatched">
-        <h5 class= "grey-text text-lighten-4">Find <span class="employee">professionals</span><span class="employer">job candidates</span> who fit your preferred field and skillsets.</h5>
+      <div class="row center unmatched">
+        <h5 class="header col s12 light">A job-finding and communication tool for those looking for passive-income occupations in the wake of the COVID-19 pandemic. Business in trouble?        Connect to businesses around you for help!</h5>
       </div>
-      <br>
       <div class = "unmatched">
         <button id="find-button" class="btn waves-effect waves-light" name="action">Find your matches
             <i class="material-icons right">search</i>
@@ -53,29 +51,11 @@
       <br>
     </div>
 
-    <div class="section matched">
+    <div id="collection-wrapper" class="section matched">
       <ul class = "collection">         
-        <li class = "collection-item avatar">
-           <img class="profile-pic">
-           <span class = "title">John Smith</span>
-           <p>Preferred field... blah blah</p>
-           <a href = "#!" class = "secondary-content"><i class = "material-icons">
-              info</i></a>
-           <a href = "#!" class = "secondary-content"><i class = "material-icons">
-            message</i></a>
-        </li>
         
-        <li class = "collection-item avatar">
-           <i class = "material-icons circle blue">person</i>
-           <span class = "title">Little Billy</span>
-           <p></p>
-           <a href = "#!" class = "secondary-content"><i class = "material-icons">
-              info</i></a>
-              <a href = "#!" class = "secondary-content"><i class = "material-icons">
-                message</i></a>
-        </li>
      </ul>
-     <div class = "matched">
+     <div class = "center matched">
       <button id="load-more-button" class="btn btn-small waves-effect waves-light" name="action">Load more matches
           <i class="material-icons right">expand_more</i>
       </button>
@@ -133,7 +113,18 @@
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
 
+      <!-- The core Firebase JS SDK is always required and must be listed first -->
+      <script src="/__/firebase/7.18.0/firebase-app.js"></script>
+
+      <!-- TODO: Add SDKs for Firebase products that you want to use
+          https://firebase.google.com/docs/web/setup#available-libraries -->
+      <script src="/__/firebase/7.18.0/firebase-analytics.js"></script>
+      <script src="/__/7.18.0/firebase-firestore.js"></script>
+  
+      <!-- Initialize Firebase -->
+      <script src="/__/firebase/init.js"></script>
   
   <script src="js/connect.js" defer></script>
+  <script src="js/queries.js" defer></script>
   </body>
 </html>
