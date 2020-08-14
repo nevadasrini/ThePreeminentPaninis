@@ -1,4 +1,4 @@
-firestore = firebase.firestore();
+
 
 class User{
 /**
@@ -29,7 +29,7 @@ class User{
 
 function getUserInfo(userToken){
     alert(userToken);
-    let docRef = firestore.collection("users").doc(userToken);
+    let docRef = db.collection("users").doc(userToken);
     docRef.get().then(
       function(doc) {
           if(doc.exists) { 
