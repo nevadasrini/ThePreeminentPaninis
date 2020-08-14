@@ -12,19 +12,21 @@
 </head>
 <body>
   <nav class="light-blue lighten-1" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
-        <div class="hide">
-            <ul class="right hide-on-med-and-down">
-                <li><a href="#">Home</a></li>
-                <li><a href = "connect.html">Connect</a></li> 
-            </ul>
+    <div class="nav-wrapper container"><a id="logo-container" href="index.html" class="brand-logo">Logo</a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="index.html">Home</a></li>
+        <li><a href = "connect.html">Connect</a></li> 
+        <li><a href = "#">Sign up</a></li> 
+        <li><a href = "#">Log in</a></li> 
+      </ul>
 
-            <ul id="nav-mobile" class="sidenav">
-                <li><a href="#">Home</a></li>
-                <li><a href = "connect.html">Connect</a></li>
-            </ul>
-            <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-        </div>
+      <ul id="nav-mobile" class="sidenav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href = "connect.html">Connect</a></li>
+        <li><a href = "#">Sign up</a></li> 
+        <li><a href = "#">Log in</a></li> 
+      </ul>
+      <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
     </div>
   </nav>
   <div class="section no-pad-bot" id="index-banner">
@@ -131,5 +133,14 @@
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
 
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="/__/firebase/7.18.0/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="/__/firebase/7.18.0/firebase-analytics.js"></script>
+
+    <!-- Initialize Firebase -->
+    <script src="/__/firebase/init.js"></script>
   </body>
 </html>
