@@ -2,25 +2,29 @@
 let matched = false;
 
 function toggleHidden() {
-    for (x in document.getElementsByClassName("matched")){
+    selectedMatch = document.getElementsByClassName("matched");
+    selectedUnmatched = document.getElementsByClassName("unmatched");
+    
+    for (let i = 0 ; i < selectedMatch.length ; i++){
+        let curr = selectedMatch.item(i);
         if(matched){
             try {
-                x.classList.remove('hide');
+                curr.classList.remove('hide');
             }catch(e){}
         }
         else{
-            try {
-                x.classList.add('hide');
-            } catch(e){}
+            curr.classList.add("hide");
         }
     }
-    for (x in document.getElementsByClassName("unmatched")){
+    
+    for (let i = 0 ; i < selectedUnmatched.length ; i++){
+        let curr = selectedUnmatched.item(i);
         if(matched){
-            x.classList.add("hide");
+            curr.classList.add("hide");
         }
         else{
             try {
-                x.classList.remove("hide")
+                curr.classList.remove("hide")
             }catch(e){}
         }
     }
