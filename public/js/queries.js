@@ -11,7 +11,9 @@ const firebaseConfig = {
 //alert("yuh");
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-analytics = firebase.analytics();
+
+
+//analytics = firebase.analytics();
 firestore = firebase.firestore();
 
 //alert("na");
@@ -20,7 +22,7 @@ firestore = firebase.firestore();
  */
 
 function getUserInfo(){
-    //alert("hi");
+    //alert(firestore);
     let name = firestore.collection("users").where("name", "==", "John Steinbeck").get("field");
     //alert("nah");
     //alert(name);
