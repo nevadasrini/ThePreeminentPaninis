@@ -1,26 +1,42 @@
 
-createCollectionItem();
+createCollectionItem("Bryan Adams", "I used to be good at singing, but now I'm a full-stack developer.", null, "#!","#!");
 
 
-function createCollectionItem(){
+
+function createCollectionItem(name, desc, profilePic, infoLink, messageLink){
+    let avatar = null;
 
     let item = document.createElement("li");
-    let avatar = document.createElement("img");
     let title = document.createElement("span");
     let text = document.createElement("p");
     
     item.classList.add("collection-item");
     item.classList.add("avatar");
-    avatar.classList.add("profile-pic");
     title.classList.add("title");
     
+    title.textContent = name;
+    text.textContent = desc;
+
+    if (profilePic != null){
+        avatar = document.createElement("img");
+        avatar.classList.add("profile-pic");
+        avatar.href = profilePic
+    }
+    else{
+        avatar = document.createElement("i");
+        avatar.classList.add("material-icons");
+        avatar.classList.add("circle");
+        avatar.classList.add("blue");
+        avatar.textContent = "person";
+    }
+
     let info = document.createElement("a");
     let message = document.createElement("a");
     
     info.classList.add("secondary-content");
     message.classList.add("secondary-content");
-    info.href = "#!";
-    message.href = "#!";
+    info.href = infoLink;
+    message.href = messageLink;
     let infoIcon = document.createElement("i")
     let messageIcon = document.createElement("i")
     
