@@ -3,17 +3,30 @@
  
 
 function createCollectionItem(){
-    let item = document.createElement("li").classList.add("collection-item").add("avatar");
-    let avatar = document.createElement("img").classList.add("profile-pic");
-    let title = document.createElement("span").classList.add("title");
+    let item = document.createElement("li");
+    let avatar = document.createElement("img");
+    let title = document.createElement("span");
     let text = document.createElement("p");
 
-    let info = document.createElement("a").classList.add("secondary-content");
-    let message = document.createElement("a").classList.add("secondary-content");
+    item.classList.add("collection-item").add("avatar");
+    avatar.classList.add("profile-pic");
+    title.classList.add("title");
+
+    let info = document.createElement("a");
+    let message = document.createElement("a");
+
+    info.classList.add("secondary-content");
+    message.classList.add("secondary-content");
+
     info.href = "#!";
     message.href = "#!";
-    let info = document.createElement("i").classList.add("material-icons");
-    let message = document.createElement("i").classList.add("material-icons");
+    let infoIcon = document.createElement("i")
+    let messageIcon = document.createElement("i")
+
+    infoIcon.classList.add("material-icons");
+    messageIcon.classList.add("material-icons");
+
+    item.appendChild
 }
 
 let matched = false;
