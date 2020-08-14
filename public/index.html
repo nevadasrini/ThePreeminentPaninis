@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>Starter Template - Materialize</title>
+  <title>Connect-COV</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -45,7 +45,7 @@
       </div>
       
       <div class="row center">
-        <button onclick="getUserInfo()" id="download-button" class="btn-small waves-effect waves-light blue">test</button>
+        <button onclick="getUserInfo('EInZsVFeXl5ea0PwxwGx')" id="download-button" class="btn-small waves-effect waves-light blue">test</button>
       </div>
       <br><br>
 
@@ -179,6 +179,33 @@
 
   <!--  Scripts-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-app.js"></script>
+
+  <script>
+    // web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyBm-4tu-ZW5kdpLkUw6OLxFjB_ajLJFEnY",
+      authDomain: "preeminent-paninis.firebaseapp.com",
+      databaseURL: "https://preeminent-paninis.firebaseio.com",
+      projectId: "preeminent-paninis",
+      storageBucket: "preeminent-paninis.appspot.com",
+      messagingSenderId: "1025410002463",
+      appId: "1:1025410002463:web:40cec81a8b2a7c8f7caf2a",
+      measurementId: "G-Y35S3D1RJ4"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+
+    // make auth and firestore references
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+  </script>
+
+  
   <script src="js/auth.js"></script>
   <script src="js/index.js"></script>
   
@@ -192,7 +219,7 @@
     <!-- TODO: Add SDKs for Firebase products that you want to use
         https://firebase.google.com/docs/web/setup#available-libraries -->
     <script src="/__/firebase/7.18.0/firebase-analytics.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-firestore.js"></script>
+    
 
     <!-- Initialize Firebase -->
     <script src="/__/firebase/init.js"></script>
