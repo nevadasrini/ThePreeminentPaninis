@@ -8,22 +8,20 @@ const firebaseConfig = {
     appId: "1:1025410002463:web:40cec81a8b2a7c8f7caf2a",
     measurementId: "G-Y35S3D1RJ4"
   };
-alert("yuh");
+//alert("yuh");
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 analytics = firebase.analytics();
 firestore = firebase.firestore();
 
-alert("hi");
+//alert("na");
 /**
- * 
- * 
- * 
- * 
  * @param {string} userToken - identifier of user info wanted
  */
 
-$(window).on('load resize scroll', function getUserInfo(userToken){
-    let name = firebase.collection("users").where("Document ID", "===", "EInZsVFeXl5ea0PwxwGx").get("name");
-    alert(name);
-})
+function getUserInfo(){
+    //alert("hi");
+    let name = firestore.collection("users").where("name", "==", "John Steinbeck").get("field");
+    //alert("nah");
+    //alert(name);
+}
