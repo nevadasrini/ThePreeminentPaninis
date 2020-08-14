@@ -1,8 +1,16 @@
-import {Query} from './queries.js';
-
 createCollectionItem("Bryan Adams", "I used to be good at singing, but now I'm a full-stack developer.", null, "#!","#!");
-Query.getUserInfo(EInZsVFeXl5ea0PwxwGx);
 
+function getUserInfo(userToken){
+    alert(userToken);
+    let docRef = db.collection("users").doc(userToken);
+    docRef.get().then(
+      function(doc) {
+          if(doc.exists) { 
+            console.log(doc.data());
+            return doc.data();
+          }
+        }).catch((error) => console.log(error));
+}
 
 function createCollectionItem(name, desc, profilePic, infoLink, messageLink){
     let avatar = null;
