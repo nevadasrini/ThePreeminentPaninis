@@ -6,20 +6,12 @@
 // creates objects
 const loggedOutLinks = document.querySelectorAll('.logged-out');
 const loggedInLinks = document.querySelectorAll('.logged-in');
-
+const accountDetails = document.getElementsByClassName('account-details')[0];
 
 // 
 const setupUI = (user) => {
     if (user){
         // toggle UI elements
-        db.collection('users').doc(user.uid).get().then(doc => {
-            const html = `
-              <div>Logged in as ${user.email}</div>
-              <div>${doc.data().name}</div>
-              <div class="pink-text">${user.admin ? 'Admin' : ''}</div>
-            `;
-            accountDetails.innerHTML = html;
-          });
 
         loggedInLinks.forEach(item => item.style.display = 'block');
         loggedOutLinks.forEach(item => item.style.display = 'none');

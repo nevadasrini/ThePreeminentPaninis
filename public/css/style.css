@@ -23,3 +23,15 @@ main#cool{
   flex: 1 0 auto;
   margin-top: auto;
 }
+
+.account-body{
+  margin: 2% 7%;
+}
+
+label{
+  font-size: 110%;
+}
+
+h6{
+  color: rgb(173, 173, 173);
+}
