@@ -26,9 +26,11 @@ function runChat (user)
             })
         })
         console.log(thisUser.name);
+        let index = -1;
         thisUser.convos.forEach( function(convo){
             
             console.log(convo);
+            index += 1;
 
             db.collection('users').doc(convo.uid)
             .onSnapshot( function(doc){
@@ -43,11 +45,29 @@ function runChat (user)
                         // Add the message to convo.messages, but reverse the 0s and 1s of the first element.
                         convo.messages.push([1 - data.messages[i][0]].concat(data.messages[i].slice(1, 3)))
                     }
+                    convo.latestMessage = data.messages[length(data.messages) - 1][2];
+                    convo.date = data.date;
                 }
-                convo.pfp = data.pfp;
-                convo.latestMessage = data.messages[length(data.messages) - 1][2];
-                convo.date = data.date;
-                renderConvoOnSideBar(c);
+                // Otherwise, maybe they changed their pfp.s
+                else{
+                    convo.pfp = data.pfp;
+                }
+                renderConvoOnSideBar(convo);
+            }
+
+            // Attach listener to logged in user to look for sent messages.
+            db.collection('users').doc(user.uid)
+            .onSnapshot( function (doc){
+                updateMyConvoAfterSend(doc.data());
+            });
+
+            function UpdateMyConvoAfterSend(data)
+            {
+                // Update the rendered message list if my user information changed (i.e. maybe sent a message).
+                let conversationList = document.getElementById("conversation-list")
+                if (length(convo.messages) > conversationList.childElementCount){
+                    displayConversation(index)
+                }
             }
 
             function renderConvoOnSideBar(c){
@@ -76,7 +96,7 @@ function runChat (user)
                 conversationElement.appendChild(latestMessage);
 
                 conversationElement.addEventListener("click", function () {
-                    displayConversation(c.number);
+                    displayConversation(index);
                 })
 
                 conversationList.appendChild(conversationElement);
