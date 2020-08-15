@@ -31,12 +31,12 @@ class User{
         db.collection("users").where("email","==",email).get().then(
         function(snapshot) {
             let doc = snapshot.docs[0];
-            if(doc.exists) { 
+            if(doc && doc.exists) { 
                 console.log(doc.data());
                 resolve(doc.data());
             }
             else{
-                reject("error");
+                reject("Error user does not exist.");
             }
             }).catch((error) => reject(error));
 
