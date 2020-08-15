@@ -41,11 +41,9 @@ function checkPerson(other){
     getUserInfo(other).then(info =>{
         otherInfo = info;
         console.log([userInfo.email,otherInfo.email]);
-        
         return db.collection('conversations').where("participants","array-contains",userInfo.email).get()
 
     }).then(snapshot=>{
-        
         if (snapshot.docs[0] && snapshot.docs[0].exists){
             //open convo
             let alreadyMade;
@@ -75,7 +73,9 @@ function newChat(otherInfo){
     let dd = String(today.getDate()).padStart(2, '0');
     let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
 
-    db.collection('conversations').doc().set({
+    let convoRef = db.collection('conversations').doc()
+
+    convoRef.set({
         //conversationID: ,
         date: mm + '/' + dd,
         latestMessage: "",
@@ -83,6 +83,15 @@ function newChat(otherInfo){
         participants:  [userInfo.email, otherInfo.email], //change to id?? some sort of unique identifier
         //pfp: [userInfo.pfp, otherInfo.pfp]
     })
+
+    alert(convoRef.id);
+
+    db.collection('conversations').doc(convoRef.id).collection("messages").doc().set({
+        date: mm + '/' + dd,
+        par: 1,
+        text: "hiya",
+    });
+
     console.log("complete");
     runChat(currUser);
     
@@ -92,11 +101,14 @@ function runChat (user)
 {   
     // If the user is signed in, run.
     let allMyConvos = [];
+    let collectionRef;
     if (user)
     {
         
         // Retrieve all conversations where the logged-in user is a participant.
-        db.collection('conversations').where("participants", "array-contains", userInfo.email/*String(user.uid)*/).get().then((snapshot) => {
+        collectionRef = db.collection('conversations').where("participants", "array-contains", userInfo.email/*String(user.uid)*/);
+        
+        collectionRef.get().then((snapshot) => {
             snapshot.docs.forEach(doc => {
                 
                 //if (doc.data().userID == user.uid){
@@ -113,36 +125,34 @@ function runChat (user)
         allMyConvos.push(1);
         console.log(allMyConvos);
 
-        allMyConvos.forEach( function(convo){
-            
-            console.log(convo);
-
             // Attach a realtime event listener to the current conversation.
-            convo
-            .onSnapshot( function(doc){
+            collectionRef.onSnapshot( function(querySnapshot){
                 // If the data changes, call updateMyConvo w/ their data as an argument.
-                updateMyConvo(doc.data());
+                querySnapshot.forEach((doc)=>{
+                    updateMyConvo(doc.data());
+                })
+                
             });
 
             // Update the conversation. 
             function updateMyConvo(data)
             {   
-                alert(2);
                 renderConvoOnSideBar(data);
             }
 
             // Render new sidebar, and attach new listener for rendering conversation messages.s
             function renderConvoOnSideBar(convoData){
-                alert(3);
                 // Create the new sidebar element to be added.
                 let conversationList = document.getElementById("conversation-list");
 
-                let pfp = document.createElement("img");
-                pfp.src = convoData.pfp[1 - convoData.participants.indexOf(user.uid)];                        // Maybe change later, idk
+                //let pfp = document.createElement("img");
+                //pfp.src = convoData.pfp[1 - convoData.participants.indexOf(user.uid)];                        // Maybe change later, idk
                 
                 let titleText = document.createElement("div");
                 titleText.classList.add("title-text");
-                titleText.innerHTML = convoData.names[1 - convoData.participants.indexOf(user.uid)];
+                titleText.innerHTML = convoData.names[1 - convoData.participants.indexOf(userInfo.email)];
+
+                console.log( convoData.names[1 - convoData.participants.indexOf(userInfo.email)]); //user.id
 
                 let latestDate = document.createElement("div");
                 latestDate.classList.add("latest-date");
@@ -165,7 +175,7 @@ function runChat (user)
                 // Creates new element.
                 conversationElement = document.createElement("div");
                 
-                conversationElement.appendChild(pfp);
+                //conversationElement.appendChild(pfp);
                 conversationElement.appendChild(titleText);
                 conversationElement.appendChild(latestDate);
                 conversationElement.appendChild(latestMessage);
@@ -181,18 +191,22 @@ function runChat (user)
                 // Inserts the new sidebar element at the top.
                 conversationList.insertBefore(conversationElement, conversationList.childNodes[0]);
             }
-        }
-        )
+        
 
         // Displays the messages the convo is clicked.
         function displayConversation(convo){
             alert(4);
             // First change the title.
             let chatTitle = document.getElementById("chat-title");
-            chatTitle.innerHTML = "";
+            chatTitle.innerHTML = `
+            <span id="chat-title-span"></span>
+            <img src="trashlogo.jpg" alt="Delete Conversation" height = "40px" width = "40px" />
+            `;
             let chatTitleSpan = document.getElementById("chat-title-span");
-            chatTitleSpan.innerHTML = convo.names[1 - convo.participants.indexOf(user.uid)];
+            console.log(chatTitleSpan);
+            chatTitleSpan.innerHTML = convo.names[1 - convo.participants.indexOf(userInfo.email)];//user.uid)];
 
+            console.log(convo.names[1 - convo.participants.indexOf(userInfo.email)]);
 
             // Retrieve container of messages.
             let chatMessageList = document.getElementById("chat-message-list");
