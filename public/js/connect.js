@@ -1,5 +1,11 @@
 createCollectionItem("Bryan Adams", "I used to be good at singing, but now I'm a full-stack developer.", null, "#!","#!");
 
+toggleHidden(false);
+
+let thisUserInfo = getUserInfo(user.uid)
+console.log(thisUserInfo);
+
+
 function getUserInfo(userToken){
     alert(userToken);
     let docRef = db.collection("users").doc(userToken);
@@ -76,9 +82,8 @@ function checkIfEmpty() {
     }
 }
 
-let matched = true;
 
-function toggleHidden() {
+function toggleHidden(matched) {
     selectedMatch = document.getElementsByClassName("matched");
     selectedUnmatched = document.getElementsByClassName("unmatched");
     
@@ -107,5 +112,3 @@ function toggleHidden() {
     }
 }
 
-toggleHidden();
-checkIfEmpty();
