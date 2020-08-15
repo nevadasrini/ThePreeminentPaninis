@@ -23,7 +23,7 @@ signupForm.addEventListener('submit', (e) => {
     // get user info
     const email = signupForm['signup-email'].value;
     const password = signupForm['signup-password'].value;
-    docID = signupForm.name.value+signupForm.age.value;
+    docID = signupForm.email.value;
     db.collection('users').doc(docID).set({
         name: signupForm.name.value,
         age: signupForm.age.value,
@@ -37,6 +37,12 @@ signupForm.addEventListener('submit', (e) => {
         const modal = document.querySelector('#modal-signup');
         M.Modal.getInstance(modal).close();
         signupForm.reset();
+    })
+
+    auth.onAuthStateChanged(user => {
+        db.collection('songs').doc(docID).update({
+            userID: user.uid || "none"
+        })
     })
 })
 
