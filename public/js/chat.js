@@ -15,7 +15,7 @@ function runChat (user)
     if (user)
     {
         
-        db.createCollectionItem('users').get().then((snapshot) => {
+        db.collection('users').get().then((snapshot) => {
             snapshot.docs.forEach(doc => {
                 
                 if (doc.data().userID == user.uid){
@@ -29,35 +29,52 @@ function runChat (user)
         thisUser.convos.forEach( function(convo){
             
             console.log(convo);
-            let conversationList = document.getElementById("conversation-list");
 
-            let pfp = document.createElement("img");
-            pfp.src = convo.pfp;                        // Maybe change later, idk
+            db.collection('users').doc(convo.uid)
+            .onSnapshot( function(doc){
+                updateMyConvo(doc.data());
+            });
+
+            function updateMyConvo(data)
+            {
+                convo.messages = data.messages;
+                convo.pfp = data.pfp;
+                convo.latestMessage = data.messages[length(data.messages) - 1][2];
+                convo.date = data.date;
+                renderConvoOnSideBar(c);
+            }
+
+            function renderConvoOnSideBar(c){
             
-            let titleText = document.createElement("div");
-            titleText.classList.add("title-text");
-            titleText.innerHTML = convo.name;
+                let conversationList = document.getElementById("conversation-list");
 
-            let latestDate = document.createElement("div");
-            latestDate.classList.add("latest-date");
-            latestDate.innerHTML = convo.date;
+                let pfp = document.createElement("img");
+                pfp.src = c.pfp;                        // Maybe change later, idk
+                
+                let titleText = document.createElement("div");
+                titleText.classList.add("title-text");
+                titleText.innerHTML = c.name;
 
-            let latestMessage = document.createElement("div");
-            latestMessage.classList.add("conversation-message");
-            latestMessage.innerHTML = convo.latestMessage;
+                let latestDate = document.createElement("div");
+                latestDate.classList.add("latest-date");
+                latestDate.innerHTML = c.date;
 
-            let conversationElement = document.createElement("div");
-            conversationElement.appendChild(pfp);
-            conversationElement.appendChild(titleText);
-            conversationElement.appendChild(latestDate);
-            conversationElement.appendChild(latestMessage);
+                let latestMessage = document.createElement("div");
+                latestMessage.classList.add("conversation-message");
+                latestMessage.innerHTML = c.latestMessage;
 
-            conversationElement.addEventListener("click", function () {
-                displayConversation(convo.number);
-            })
+                let conversationElement = document.createElement("div");
+                conversationElement.appendChild(pfp);
+                conversationElement.appendChild(titleText);
+                conversationElement.appendChild(latestDate);
+                conversationElement.appendChild(latestMessage);
 
-            conversationList.appendChild(conversationElement);
+                conversationElement.addEventListener("click", function () {
+                    displayConversation(c.number);
+                })
 
+                conversationList.appendChild(conversationElement);
+            }
         }
         )
 
@@ -104,22 +121,33 @@ function runChat (user)
                 chatMessageList.append(messageRow);
             }
             )
+        
+            document.getElementById("send-box")
+            .addEventListener("keyup", function(event) {
+            event.preventDefault();
+            if (event.keyCode === 13) {
+                sendMessage();
+            }});
+
+            function sendMessage(){
+                let messageBox = document.getElementById("send-box");
+                let message = messageBox.value.trim();
+                messageBox.value = "";
+                
+                if (message != "") {
+                    var today = new Date();
+                    var dd = String(today.getDate()).padStart(2, '0');
+                    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                
+                    thisConvo.messages.push([0, mm + '/' + dd, message]);   // FIGURE THIS OUT
+                    thisConvo.date = (mm + '/' + dd);
+                }
+            }
+        
         }
 
     }
     else {
         console.log('you\'re not logged in!')
     }
-}
-
-document.getElementById("send-box")
-    .addEventListener("keyup", function(event) {
-    event.preventDefault();
-    if (event.keyCode === 13) {
-        sendMessage();
-    }
-});
-
-function sendMessage(){
-    
 }
