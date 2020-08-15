@@ -65,6 +65,7 @@ function updateAccount(user){
             age: form.age.value,
             field: form.field.value,
             skills: form.skills.value,
+            desc: form.bio.value,
             email: user.email
         })
     }

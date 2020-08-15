@@ -273,8 +273,8 @@ function runChat (user)
                     // Update the message fields.
                     conversationReference.collection("messages").add(
                         {
-                            date: thisConvo.participants.indexOf(user.uid),
-                            par: mm + '/' + dd,
+                            par: thisConvo.participants.indexOf(user.uid),
+                            date: mm + '/' + dd,
                             text: message
                         }
                     )
