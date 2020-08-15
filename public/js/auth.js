@@ -27,7 +27,7 @@ const signupForm = document.querySelector('#signup-form');
 signupForm.addEventListener('submit', (e) => {
     // prevent refresh (losing info)
     e.preventDefault();
-    alert(signupForm.bio.value);
+
     // get user info
     const email = signupForm['signup-email'].value;
     const password = signupForm['signup-password'].value;
@@ -38,7 +38,7 @@ signupForm.addEventListener('submit', (e) => {
         field: signupForm.field.value,
         skills: [signupForm.skills.value], //parseCSV(signupForm.skills.value),
         email: signupForm.email.value,
-        bio: signupForm.bio.value
+        desc: signupForm.bio.value
     })
 
     // sign up the user

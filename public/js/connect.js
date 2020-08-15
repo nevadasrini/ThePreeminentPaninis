@@ -190,7 +190,7 @@ function matchUser(){
             console.log(skillScore);
             skillScore.forEach(pair =>{
                 let d = "desc";
-                if(true){//pair[1].desc && pair[1].desc.trim() == ""){
+                if(pair[1].desc && pair[1].desc.trim() == ""){
                     d = "Hi! I'm " + pair[1].name + " and my skills include: " + pair[1].skills;
                 }
                 createCollectionItem(pair[1].name, d, null, `account.html?other=${pair[1].email}`, `chat.html?other=${pair[1].email}`)
