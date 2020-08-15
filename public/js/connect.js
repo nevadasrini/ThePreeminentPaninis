@@ -1,10 +1,6 @@
-
+let thisUserInfo;
 
 createCollectionItem("Bryan Adams", "I used to be good at singing, but now I'm a full-stack developer.", null, "#!","#!");
-//db = firebase.firestore();
-
-//matchUser();
-
 toggleHidden(false);
 //document.getElementById("find-button").addEventListener("click", getMatches)
 
@@ -20,9 +16,13 @@ auth.onAuthStateChanged(user => {
 
 function runConnect(user){
     if(user){
-        let thisUserInfo = getUserInfo(user.uid);
-        console.log(thisUserInfo);
-        console.log(thisUserInfo.age);
+        getUserInfo(user.email).then(info => {
+            thisUserInfo = info
+            console.log(thisUserInfo);
+            console.log(thisUserInfo.age);
+        }
+            );
+        
     }
 }
 
@@ -127,59 +127,63 @@ function matchUser(){
 //get current user's skill set and field
     //identify via custom id token, grab email address
     //then search database
+    if(!thisUserInfo){
+        setTimeout(function(){matchUser()}, 200);
+        return false;
+    }
+    let currUser = thisUserInfo;
 
-    let currUser = null;
-    getUserInfo("johnny@gmail.com").then((info)=> {
-        currUser = info;
+    let currField = currUser.field;
+    let currSkills = currUser.skills;
 
-
-        let currField = currUser.field;
-        let currSkills = currUser.skills;
-
-        //match with pros in the same field
-        let skillScore = [];
-        console.log()
-        db.collection("users").where("field","==",currField).get().then(
-            function(snapshot){
-                snapshot.docs.forEach(doc => {
-                    if(doc.exists){
-                        let same = 0;
-                        doc.data().skills.forEach(skill =>{
-                            for(let currSkill of currSkills){ 
-                                    if (skill.toLowerCase()==currSkill.toLowerCase()){
-                                        same++;
-                                        break;
-                                    }
-                            }
-                        })
-                        skillScore.push([same,doc.data()]);
+    //match with pros in the same field
+    let skillScore = [];
+    console.log(currUser);
+    db.collection("users").where("field","==",currField).get().then(
+        function(snapshot){
+            snapshot.docs.forEach(doc => {
+                if(doc.exists){
+                    let same = 0;
+                    doc.data().skills.forEach(skill =>{
+                        for(let currSkill of currSkills){ 
+                                if (skill.toLowerCase()==currSkill.toLowerCase()){
+                                    same++;
+                                    break;
+                                }
+                        }
+                    })
+                    skillScore.push([same,doc.data()]);
                         
                         
-                    }
-                        }); 
+                }
+                    }); 
                     
                
-               //order matches by compatibility of skills
-                for(let i=1; i<skillScore.length; i++){
-                    let currMax = skillScore[i];
-                    for(let k=i; k>0;k--){
-                        if(currMax[0]>skillScore[k-1][0]){
-                            skillScore[k]=skillScore[k-1];
-                        }
-                        else{
-                            skillScore[k]=currMax;
-                            break;
-                         }
+            //order matches by compatibility of skills
+            for(let i=1; i<skillScore.length; i++){
+                let currMax = skillScore[i];
+                for(let k=i; k>0;k--){
+                    if(currMax[0]>skillScore[k-1][0]){
+                        skillScore[k]=skillScore[k-1];
+                    }
+                    else{
+                        skillScore[k]=currMax;
+                        break;
                     }
                 }
-                console.log(skillScore);
-                skillScore.forEach(pair =>{
-                    createCollectionItem(pair[1].name, "desc", null, "#!", "#!")
-                });
-                toggleHidden(true);
+            }
+            console.log(skillScore);
+            skillScore.forEach(pair =>{
+                createCollectionItem(pair[1].name, "desc", null, "#!", "#!")
+            });
+            toggleHidden(true);
+            return true;
 
-        }).catch((error)=>console.log(error));
-    }).catch((error)=>console.log(error));    
+    }).catch((error)=>{
+        console.log(error);
+        return false;
+    });
+       
 }
 
 function checkIfEmpty() {
