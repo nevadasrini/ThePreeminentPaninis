@@ -34,6 +34,6 @@ function getUserInfo(userToken){
             console.log(doc.data());
             return doc.data();
           }
-        ).catch((error) => console.log(error));
+        }
+    ).catch((error) => console.log(error));
   }
-

@@ -143,9 +143,8 @@ function checkIfEmpty() {
     }
 }
 
-let matched = true;
 
-function toggleHidden() {
+function toggleHidden(matched) {
     selectedMatch = document.getElementsByClassName("matched");
     selectedUnmatched = document.getElementsByClassName("unmatched");
     
@@ -174,5 +173,3 @@ function toggleHidden() {
     }
 }
 
-toggleHidden();
-checkIfEmpty();
