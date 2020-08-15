@@ -1,14 +1,14 @@
 
 
-//createCollectionItem("Bryan Adams", "I used to be good at singing, but now I'm a full-stack developer.", null, "#!","#!");
-db = firebase.firestore();
+createCollectionItem("Bryan Adams", "I used to be good at singing, but now I'm a full-stack developer.", null, "#!","#!");
+//db = firebase.firestore();
 
-matchUser();
+//matchUser();
 
 toggleHidden(false);
 //document.getElementById("find-button").addEventListener("click", getMatches)
 
-/*auth.onAuthStateChanged(user => {
+auth.onAuthStateChanged(user => {
     if (user) {
         console.log('user logged in: ', user)
         runConnect(user);
@@ -16,17 +16,17 @@ toggleHidden(false);
         runConnect();
         console.log('user logged out')
     }
-})
+});
 
 function runConnect(user){
     if(user){
         let thisUserInfo = getUserInfo(user.uid);
         console.log(thisUserInfo);
-        //console.log(thisUserInfo.age);
+        console.log(thisUserInfo.age);
     }
 }
 
-function getUserInfo(userToken){
+/*function getUserInfo(userToken){
     alert(userToken);
     let docRef = db.collection("users").doc(userToken);
     docRef.get().then(
@@ -38,24 +38,52 @@ function getUserInfo(userToken){
         }).catch((error) => console.log(error));
 }   */
 
-
 function getUserInfo(email){
     return new Promise((resolve,reject)=>{
 
-    db.collection("users").where("email","==",email).get().then(
-      function(snapshot) {
-          let doc = snapshot.docs[0];
-          if(doc.exists) { 
-            console.log(doc.data());
-            resolve(doc.data());
-          }
-          else{
-            reject("error");
-          }
-        }).catch((error) => reject(error));
+        db.collection("users").where("email","==",email).get().then(
+        function(snapshot) {
+            let doc = snapshot.docs[0];
+            if(doc.exists) { 
+                console.log(doc.data());
+                resolve(doc.data());
+            }
+            else{
+                reject("error");
+            }
+            }).catch((error) => reject(error));
 
     })
     
+}
+
+function toggleHidden(matched) {
+    selectedMatch = document.getElementsByClassName("matched");
+    selectedUnmatched = document.getElementsByClassName("unmatched");
+    
+    for (let i = 0 ; i < selectedMatch.length ; i++){
+        let curr = selectedMatch.item(i);
+        if(matched){
+            try {
+                curr.classList.remove('hide');
+            }catch(e){}
+        }
+        else{
+            curr.classList.add("hide");
+        }
+    }
+    
+    for (let i = 0 ; i < selectedUnmatched.length ; i++){
+        let curr = selectedUnmatched.item(i);
+        if(matched){
+            curr.classList.add("hide");
+        }
+        else{
+            try {
+                curr.classList.remove("hide")
+            }catch(e){}
+        }
+    }
 }
 
 function createCollectionItem(name, desc, profilePic, infoLink, messageLink){
@@ -120,7 +148,7 @@ function matchUser(){
     //identify via custom id token, grab email address
     //then search database
 
-    let currUser = null
+    let currUser = null;
     getUserInfo("john@gmail.com").then((user)=> {
         currUser = user
 
@@ -163,9 +191,9 @@ function matchUser(){
                 }
 
                 skillScore.forEach(pair =>{
-                    alert(1);
                     createCollectionItem(pair[1].name, "desc", null, "#!", "#!")
                 });
+                toggleHidden(true);
 
         }).catch((error)=>console.log(error));
     }).catch((error)=>console.log(error));    
@@ -180,32 +208,5 @@ function checkIfEmpty() {
 }
 
 
-function toggleHidden(matched) {
-    selectedMatch = document.getElementsByClassName("matched");
-    selectedUnmatched = document.getElementsByClassName("unmatched");
-    
-    for (let i = 0 ; i < selectedMatch.length ; i++){
-        let curr = selectedMatch.item(i);
-        if(matched){
-            try {
-                curr.classList.remove('hide');
-            }catch(e){}
-        }
-        else{
-            curr.classList.add("hide");
-        }
-    }
-    
-    for (let i = 0 ; i < selectedUnmatched.length ; i++){
-        let curr = selectedUnmatched.item(i);
-        if(matched){
-            curr.classList.add("hide");
-        }
-        else{
-            try {
-                curr.classList.remove("hide")
-            }catch(e){}
-        }
-    }
-}
+
 

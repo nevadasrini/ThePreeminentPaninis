@@ -19,10 +19,10 @@ class User{
     } 
 };
 
-
+/*
   /**
    * @param {string} userToken - identifier of user info wanted
-   */
+   *//*
 
 
 function getUserInfo(userToken){
@@ -37,3 +37,4 @@ function getUserInfo(userToken){
         }
     ).catch((error) => console.log(error));
   }
+*/
