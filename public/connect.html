@@ -18,10 +18,10 @@
         <li><a href="index.html">Home</a></li>
         <li class="logged-in"><a href = "connect.html" class="modal-trigger">Connect</a></li> 
         <li class="logged-in"><a href = "chat.html" class="modal-trigger">Chat</a></li> 
-        <li class="logged-in"><a href="#" class="modal-trigger" data-target="modal-account">Account</a></li>
+        <li class="logged-in"><a href="account.html">Account</a></li> 
+        <li class="logged-out"><a href = "#" class="modal-trigger" data-target="modal-login">Log In</a></li>
         <li class="logged-out"><a href = "#" class="modal-trigger" data-target="modal-signup">Sign Up</a></li> 
-        <li class="logged-out"><a href = "#" class="modal-trigger" data-target="modal-login">Log In</a></li> 
-        <li class="logged-in"><a id = "logout" href = "#" class="modal-trigger" data-target="modal-logout">Log Out</a></li> 
+        <li class="logged-in"><a href = "#" class="modal-trigger" data-target="modal-logout" id="logout">Log Out</a></li> 
       </ul>
 
       <ul id="nav-mobile" class="sidenav">
@@ -30,7 +30,7 @@
       </ul>
       <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
     </div>
-  </nav>
+</nav>
 
 
   <main id="cool">
@@ -139,7 +139,8 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
   </script>
-
+  <script src="js/auth.js" defer></script>
+  <script src="js/index.js" defer></script>
   <script src="js/queries.js" defer></script>
   <script src="js/connect.js" defer></script>
   

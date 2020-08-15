@@ -30,6 +30,20 @@
           <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         </div>
     </nav>
+    <div class="account-body">
+        <h3>My Account</h3>
+        <p id="email"></p>
+        <form id="accountForm">
+            <h6>Full Name:</h6><input type="text" id="name">
+            <h6>Age: </h6><input type="number" id="age">
+            <h6 for="field">Field: </h6><input type="text" id="field">
+            <h6>Skills: </h6><input type="text" id="skills">
+            <br><br>
+            <button class="btn lavender darken-2 z-depth-0">Save</button>
+        </form>
+        
+    </div>
+    
   <!--  Scripts-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-app.js"></script>
@@ -56,10 +70,10 @@
     const db = firebase.firestore();
   </script>
 
-  
-  <script src="js/auth.js"></script>
-  <script src="js/index.js"></script>
-  
+<script src="js/auth.js"></script>
+<script src="js/index.js"></script>
+  <script src="js/account.js"></script>
+
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>

@@ -1,4 +1,7 @@
+
+// Check if the user is signed in.
 auth.onAuthStateChanged(user => {
+    // If so, run main app.
     if (user) {
         console.log('user logged in: ', user)
         runChat(user);
@@ -11,130 +14,144 @@ auth.onAuthStateChanged(user => {
 
 function runChat (user)
 {
-    let thisUser;
+    // If the user is signed in, run.
+    let allMyConvos;
     if (user)
     {
-        
-        db.collection('users').get().then((snapshot) => {
+        // Retrieve all conversations where the logged-in user is a participant.
+        db.collection('conversations').where("participants", "array-contains", String(user.uid)).get().then((snapshot) => {
             snapshot.docs.forEach(doc => {
                 
                 if (doc.data().userID == user.uid){
-                    thisUser = doc.data(); 
+                    
+                    allMyConvos = doc.data(); 
 
                 }
 
             })
         })
-        console.log(thisUser.name);
-        let index = -1;
-        thisUser.convos.forEach( function(convo){
+
+        // Iterate through the user's existing conversations.
+        console.log(allMyConvos);
+
+        allMyConvos.forEach( function(convo){
             
             console.log(convo);
-            index += 1;
 
-            db.collection('users').doc(convo.uid)
+            // Attach a realtime event listener to the current conversation.
+            convo
             .onSnapshot( function(doc){
+                // If the data changes, call updateMyConvo w/ their data as an argument.
                 updateMyConvo(doc.data());
             });
 
+            // Update the conversation. 
             function updateMyConvo(data)
             {
-                // Update the message list if a message was added.
-                if (length(data.messages) > length(convo.messages)){
-                    for (i = length(convo.messages) ; i < length(data.messages) ; i++){
-                        // Add the message to convo.messages, but reverse the 0s and 1s of the first element.
-                        convo.messages.push([1 - data.messages[i][0]].concat(data.messages[i].slice(1, 3)))
-                    }
-                    convo.latestMessage = data.messages[length(data.messages) - 1][2];
-                    convo.date = data.date;
-                }
-                // Otherwise, maybe they changed their pfp.s
-                else{
-                    convo.pfp = data.pfp;
-                }
-                renderConvoOnSideBar(convo);
+                renderConvoOnSideBar(data);
             }
 
-            // Attach listener to logged in user to look for sent messages.
-            db.collection('users').doc(user.uid)
-            .onSnapshot( function (doc){
-                updateMyConvoAfterSend(doc.data());
-            });
-
-            function UpdateMyConvoAfterSend(data)
-            {
-                // Update the rendered message list if my user information changed (i.e. maybe sent a message).
-                let conversationList = document.getElementById("conversation-list")
-                if (length(convo.messages) > conversationList.childElementCount){
-                    displayConversation(index)
-                }
-            }
-
-            function renderConvoOnSideBar(c){
+            // Render new sidebar, and attach new listener for rendering conversation messages.s
+            function renderConvoOnSideBar(convoData){
             
+                // Create the new sidebar element to be added.
                 let conversationList = document.getElementById("conversation-list");
 
                 let pfp = document.createElement("img");
-                pfp.src = c.pfp;                        // Maybe change later, idk
+                pfp.src = convoData.pfp[1 - convoData.participants.indexOf(user.uid)];                        // Maybe change later, idk
                 
                 let titleText = document.createElement("div");
                 titleText.classList.add("title-text");
-                titleText.innerHTML = c.name;
+                titleText.innerHTML = convoData.names[1 - convoData.participants.indexOf(user.uid)];
 
                 let latestDate = document.createElement("div");
                 latestDate.classList.add("latest-date");
-                latestDate.innerHTML = c.date;
+                latestDate.innerHTML = convoData.date;
 
                 let latestMessage = document.createElement("div");
                 latestMessage.classList.add("conversation-message");
-                latestMessage.innerHTML = c.latestMessage;
+                latestMessage.innerHTML = convoData.latestMessage;
 
-                let conversationElement = document.createElement("div");
+                // If the conversation element already exists in the sidebar
+                let conversationElement;
+                try {
+                    // Can identify if an element already exists for this conversation because the stored conversationId is equal to the element's ID.
+                    conversationElement = document.getElementById(convoData.conversationId);
+                    // Removes existing element if it is found.
+                    conversationList.removeChild(conversationElement);
+                } catch (error) {
+                }
+
+                // Creates new element.
+                conversationElement = document.createElement("div");
+                
                 conversationElement.appendChild(pfp);
                 conversationElement.appendChild(titleText);
                 conversationElement.appendChild(latestDate);
                 conversationElement.appendChild(latestMessage);
 
+                // Attaches event listener so the conversation can be displayed if the element in the sidebar is clicked.
                 conversationElement.addEventListener("click", function () {
-                    displayConversation(index);
+                    displayConversation(convoData);
                 })
 
-                conversationList.appendChild(conversationElement);
+                // Sets stored conversation.conversationId equal to the element's ID.
+                conversationElement.id = convoData.conversationId;
+
+                // Inserts the new sidebar element at the top.
+                conversationList.insertBefore(conversationElement, conversationList.childNodes[0]);
             }
         }
         )
 
-        function displayConversation(convoNumber){
-            let thisConvo = thisUser.convos[convoNumber];
+        // Displays the messages the convo is clicked.
+        function displayConversation(convo){
+
+            // First change the title.
+            let chatTitle = document.getElementById("chat-title");
+            chatTitle.innerHTML = "";
+            let chatTitleSpan = document.getElementById("chat-title-span");
+            chatTitleSpan.innerHTML = convo.names[1 - convo.participants.indexOf(user.uid)];
+
+
+            // Retrieve container of messages.
+            let chatMessageList = document.getElementById("chat-message-list");
+            // Clear container of current contents.
+            chatMessageList.innerHTML = "";
+
+            let thisConvo = convo;
+            // Iterate through the messages of the given conversation.
             thisConvo.messages.forEach( function(message) {
 
-                let chatMessageList = document.getElementById("chat-message-list");
-
+                // Create new message element.
                 let messageRow = document.createElement("div");
                 messageRow.classList.add("message-row")
                 
                 let messageContent = document.createElement("div");
                 messageContent.classList.add("message-content");
 
-                
-                if(message[0] == 0){
+                // If the message's first element (either 0 or 1) matches the index of the logged-in user's uid in the "participant" array, the message was sent by the logged-in user and should be displayed as "your message."
+                if(thisConvo.participants[message[0]] == user.uid){
                     // If you sent it
                     messageRow.classList.add("you-message");
                 }
-                else if(message[0] == 1){
+                // Otherwise, display as the other person's message. Maybe change to an "else" statement.
+                else if(thisConvo.participants[message[0]] != user.uid){
                     // If the other person sent it
                     messageRow.classList.add("other-message");
                     let messageImage = document.createElement("img");
-                    messageImage.src = thisConvo.pfp;
+                    messageImage.src = thisConvo.pfp[1 - thisConvo.participants.indexOf(user.uid)];
                     messageImage.height = "40px";
                     messageImage.width = "40px";
                     messageContent.appendChild(messageImage);
                 }
 
+                // The message text is the third element in the array.
                 let messageText = document.createElement("div");
                 messageText.classList.add("message-text");
                 messageText.innerHTML = message[2];
 
+                // The message time is the second element in the array.
                 let messageTime = document.createElement("div");
                 messageTime.classList.add("message-time");
                 messageTime.innerHTML = message[1];
@@ -144,36 +161,48 @@ function runChat (user)
 
                 messageRow.appendChild(messageContent);
 
+                // Append the message element to the chat element.
                 chatMessageList.append(messageRow);
             }
             )
         
+            // Attach an event listener to the send box.
             document.getElementById("send-box")
             .addEventListener("keyup", function(event) {
             event.preventDefault();
+            // If the enter key is pressed and released, try to send the currently-typed message.
             if (event.keyCode === 13) {
-                sendMessage(convoNumber);
+                sendMessage(thisConvo);
             }});
 
-            function sendMessage(cN){
+            // Try to send the currently-typed message.
+            function sendMessage(thisConvo){
                 let messageBox = document.getElementById("send-box");
+                // Trim whitespace from either end of the value.
                 let message = messageBox.value.trim();
                 messageBox.value = "";
                 
+                // Only send if something is typed.
                 if (message != "") {
+                    // Retrieve the date and format it it into mm/dd format.
                     var today = new Date();
                     var dd = String(today.getDate()).padStart(2, '0');
                     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
                 
-                    tC = thisUser.convos[cN];
-                    tC.messages.push([0, mm + '/' + dd, message]);   // FIGURE THIS OUT
-                    tC.date = (mm + '/' + dd);
+                    // Update the current conversation by adding the new message. The message is in the format [who sent it? 0 or 1, date in mm/dd format, message string]. Also update the conversation by updating the date.
+                    db.collection("conversations").where("conversationId", "==", convo.conversationId).update(
+                        {
+                            messages: thisConvo.messages.concat([thisConvo.participants.indexOf(user.uid), mm + '/' + dd, message]),
+                            date: String(mm + "/" + dd)
+                        }
+                    )
                 }
             }
         
         }
 
     }
+    // The user is not logged in. This should not happen.
     else {
         console.log('you\'re not logged in!')
     }
