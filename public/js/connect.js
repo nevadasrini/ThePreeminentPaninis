@@ -160,7 +160,7 @@ function matchUser(){
                                 }
                         }
                     })
-                    skillScore.push([same,doc.data()]);      
+                    skillScore.push([same, doc.data()]);      
                 }
                 else{
                     //No matches found
@@ -189,10 +189,11 @@ function matchUser(){
             }
             console.log(skillScore);
             skillScore.forEach(pair =>{
+                let d = "desc";
                 if(true){//pair[1].desc && pair[1].desc.trim() == ""){
-                    pair[1].desc = "Hi! I'm " + pair[1].name + " and my skills include: " + pair[1].skills;
+                    d = "Hi! I'm " + pair[1].name + " and my skills include: " + pair[1].skills;
                 }
-                createCollectionItem(pair[1].name, pair[1].desc, null, `account.html?other=${pair[1].email}`, `chat.html?other=${pair[1].email}`)
+                createCollectionItem(pair[1].name, d, null, `account.html?other=${pair[1].email}`, `chat.html?other=${pair[1].email}`)
             });
             toggleHidden(true);
             return true;
