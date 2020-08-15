@@ -37,7 +37,7 @@ signupForm.addEventListener('submit', (e) => {
         field: signupForm.field.value,
         skills: [signupForm.skills.value], //parseCSV(signupForm.skills.value),
         email: signupForm.email.value,
-        bio: signupForm.bio.value
+        desc: signupForm.bio.value
     })
 
     // sign up the user
