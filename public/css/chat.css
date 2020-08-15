@@ -100,7 +100,7 @@ search-container input::placeholder{
     text-overflow: ellipsis;
 }
 
-.created-date {
+.latest-date {
     color: #ddd;
     font-size: 1rem;
 }
