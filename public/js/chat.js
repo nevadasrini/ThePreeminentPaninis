@@ -6,6 +6,7 @@ auth.onAuthStateChanged(user => {
         console.log('user logged in: ', user);
         getUserInfo(user.email).then(userInfo=>{
             userInfo = info;
+            console.log(userInfo);
             runChat(user);
         })
     }
@@ -28,9 +29,10 @@ function newChat(other){
             date: mm + '/' + dd,
             latestMessage: "",
             names: [userInfo.name, otherInfo.name], 
-            participants:  [ , ],
+            participants:  [ userInfo.email, otherInfo.email], //change to id??
             pfp: [userInfo.pfp, otherInfo.pfp]
         })
+
     }).catch(error => console.log(error));
 }
 
