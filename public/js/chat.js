@@ -1,3 +1,6 @@
+//const { info } = require("console");
+//const { errorMonitor } = require("stream");
+let currUser;
 let userInfo;
 
 const queryString = window.location.search;
@@ -9,23 +12,22 @@ auth.onAuthStateChanged(user => {
     // If so, run main app.
     if (user) {
         console.log('user logged in: ', user);
-
-        try{
-            const queryString = window.location.search;
-            const urlParams = new URLSearchParams(queryString);
-            const other = urlParams.get('other');
-
-            newChat(other)
-        }catch(error){
-            console.log(error);
-            console.log("Loading existing chats.");
-        }
-
-        getUserInfo(user.email).then(userInfo=>{
+        currUser = user;
+        getUserInfo(user.email).then(info=>{
             userInfo = info;
             console.log(userInfo);
-            newChat("john@gmail.com");
-            runChat(user);
+
+            try{
+                const queryString = window.location.search;
+                const urlParams = new URLSearchParams(queryString);
+                const other = urlParams.get('other');
+                
+                checkPerson("john@gmail.com");
+            }catch(error){
+                console.log(error);
+                console.log("Loading existing chats.");
+                runChat(user);
+            }
         })
     }
     else {
@@ -34,24 +36,53 @@ auth.onAuthStateChanged(user => {
     }
 })
 
-function newChat(other){
-    
+function checkPerson(other){
+    let otherInfo;
+    getUserInfo(other).then(info =>{
+        otherInfo = info;
+        console.log([userInfo.email,otherInfo.email]);
+        return db.collection('conversations').where("participants","array-contains",userInfo.email).get()
+
+    }).then(snapshot=>{
+        if (snapshot.docs[0] && snapshot.docs[0].exists){
+            //open convo
+            let alreadyMade;
+            snapshot.docs.forEach(doc =>{
+                console.log(doc.data().participants);
+                doc.data().participants.forEach(part =>{
+                    alreadyMade = (part == otherInfo.email);
+                })
+            })
+            if (alreadyMade){
+                console.log("Already made");
+                runChat(currUser);
+            }
+            else{
+                newChat(otherInfo);
+            }
+        }
+        else{
+            newChat(otherInfo);
+        }
+    }).catch(error => console.log(error));
+}
+
+function newChat(otherInfo){
+
     let today = new Date();
     let dd = String(today.getDate()).padStart(2, '0');
     let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
 
-    getUserInfo(other).then(otherInfo =>{
-
-        db.collection('conversations').doc().set({
-            //conversationID: ,
-            date: mm + '/' + dd,
-            latestMessage: "",
-            names: [userInfo.name, otherInfo.name], 
-            participants:  [userInfo.email, otherInfo.email], //change to id?? some sort of unique identifier
-            pfp: [userInfo.pfp, otherInfo.pfp]
-        })
-
-    }).catch(error => console.log(error));
+    db.collection('conversations').doc().set({
+        //conversationID: ,
+        date: mm + '/' + dd,
+        latestMessage: "",
+        names: [userInfo.name, otherInfo.name], 
+        participants:  [userInfo.email, otherInfo.email], //change to id?? some sort of unique identifier
+        //pfp: [userInfo.pfp, otherInfo.pfp]
+    })
+    alert("complete");
+    
 }
 
 function runChat (user)
