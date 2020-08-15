@@ -1,5 +1,3 @@
-
-
 class User{
 /**
  * 
@@ -18,14 +16,14 @@ class User{
       this.phone = phone;
       this.pro = pro;
       this.skills = skills;
-    }
+    } 
+};
 
-    
-}
 
-/**
- * @param {string} userToken - identifier of user info wanted
- */
+  /**
+   * @param {string} userToken - identifier of user info wanted
+   */
+
 
 function getUserInfo(userToken){
     alert(userToken);
@@ -36,7 +34,6 @@ function getUserInfo(userToken){
             console.log(doc.data());
             return doc.data();
           }
-      }
-  ).catch((error) => console.log(error));
-}
-
+        }
+    ).catch((error) => console.log(error));
+  }
