@@ -237,17 +237,19 @@ search-container input::placeholder{
     border-radius: 0 0 10px 0;
     border-top: 1px solid rgba(0,0,0,0.25);
     padding-left: 42px;
-    padding-right: 0px;
+    padding-right: 22px;
 }
 
 #chat-form input {
     outline: none;
-    padding: 2px;
+    padding: 5px;
     border: 2px solid #ddd;
     color: #330;
     border-radius: 6px;
     font-size: 1.4rem;
-    padding-right: 0px;
+    width: 2000%;
+    
+    
 }
 
 ::webkit-scrollbar {
