@@ -129,19 +129,20 @@ function runChat (user)
             collectionRef.onSnapshot( function(querySnapshot){
                 // If the data changes, call updateMyConvo w/ their data as an argument.
                 querySnapshot.forEach((doc)=>{
-                    updateMyConvo(doc.data());
+                    updateMyConvo(doc);
                 })
                 
             });
 
             // Update the conversation. 
-            function updateMyConvo(data)
+            function updateMyConvo(doc)
             {   
-                renderConvoOnSideBar(data);
+                renderConvoOnSideBar(doc);
             }
 
             // Render new sidebar, and attach new listener for rendering conversation messages.s
-            function renderConvoOnSideBar(convoData){
+            function renderConvoOnSideBar(doc){
+                let convoData = doc.data();
                 // Create the new sidebar element to be added.
                 let conversationList = document.getElementById("conversation-list");
 
@@ -182,7 +183,7 @@ function runChat (user)
 
                 // Attaches event listener so the conversation can be displayed if the element in the sidebar is clicked.
                 conversationElement.addEventListener("click", function () {
-                    displayConversation(convoData);
+                    displayConversation(doc);
                 })
 
                 // Sets stored conversation.conversationId equal to the element's ID.
@@ -194,8 +195,9 @@ function runChat (user)
         
 
         // Displays the messages the convo is clicked.
-        function displayConversation(convo){
-            alert(4);
+        function displayConversation(doc){
+            //alert(4);
+            let convo = doc.data();
             // First change the title.
             let chatTitle = document.getElementById("chat-title");
             chatTitle.innerHTML = `
@@ -212,52 +214,54 @@ function runChat (user)
             let chatMessageList = document.getElementById("chat-message-list");
             // Clear container of current contents.
             chatMessageList.innerHTML = "";
+            
+            db.collection('conversations').doc(doc.id).collection("messages").get().then( snapshot=>{
 
-            let thisConvo = convo;
-            // Iterate through the messages of the given conversation.
-            thisConvo.messages.forEach( function(message) {
+                let thisConvo = snapshot.docs;
+                 // Iterate through the messages of the given conversation.
+                thisConvo.forEach( function(doc) {
+                    let message = doc.data();
+                    // Create new message element.
+                    let messageRow = document.createElement("div");
+                    messageRow.classList.add("message-row")
+                    
+                    let messageContent = document.createElement("div");
+                    messageContent.classList.add("message-content");
 
-                // Create new message element.
-                let messageRow = document.createElement("div");
-                messageRow.classList.add("message-row")
-                
-                let messageContent = document.createElement("div");
-                messageContent.classList.add("message-content");
+                    // If the message's first element (either 0 or 1) matches the index of the logged-in user's uid in the "participant" array, the message was sent by the logged-in user and should be displayed as "your message."
+                    if(convo.participants[message.par] == user.uid){
+                        // If you sent it
+                        messageRow.classList.add("you-message");
+                    }
+                    // Otherwise, display as the other person's message. Maybe change to an "else" statement.
+                    else if(convo.participants[message.par] != userInfo.email){//user.uid){
+                        // If the other person sent it
+                        messageRow.classList.add("other-message");
+                        let messageImage = document.createElement("img");
+                        //messageImage.src = convo.pfp[1 - convo.participants.indexOf(userInfo.email)];//user.uid)];
+                        messageImage.height = "40px";
+                        messageImage.width = "40px";
+                        messageContent.appendChild(messageImage);
+                    }
 
-                // If the message's first element (either 0 or 1) matches the index of the logged-in user's uid in the "participant" array, the message was sent by the logged-in user and should be displayed as "your message."
-                if(thisConvo.participants[message.par] == user.uid){
-                    // If you sent it
-                    messageRow.classList.add("you-message");
+                    // The message text is the third element in the array.
+                    let messageText = document.createElement("div");
+                    messageText.classList.add("message-text");
+                    messageText.innerText = message.text;
+
+                    // The message time is the second element in the array.
+                    let messageTime = document.createElement("div");
+                    messageTime.classList.add("message-time");
+                    messageTime.innerText = message.date;
+
+                    messageContent.appendChild(messageText);
+                    messageContent.appendChild(messageTime);
+
+                    messageRow.appendChild(messageContent);
+
+                    // Append the message element to the chat element.
+                    chatMessageList.append(messageRow);
                 }
-                // Otherwise, display as the other person's message. Maybe change to an "else" statement.
-                else if(thisConvo.participants[message.par] != user.uid){
-                    // If the other person sent it
-                    messageRow.classList.add("other-message");
-                    let messageImage = document.createElement("img");
-                    messageImage.src = thisConvo.pfp[1 - thisConvo.participants.indexOf(user.uid)];
-                    messageImage.height = "40px";
-                    messageImage.width = "40px";
-                    messageContent.appendChild(messageImage);
-                }
-
-                // The message text is the third element in the array.
-                let messageText = document.createElement("div");
-                messageText.classList.add("message-text");
-                messageText.innerHTML = message.text;
-
-                // The message time is the second element in the array.
-                let messageTime = document.createElement("div");
-                messageTime.classList.add("message-time");
-                messageTime.innerHTML = message.date;
-
-                messageContent.appendChild(messageText);
-                messageContent.appendChild(messageTime);
-
-                messageRow.appendChild(messageContent);
-
-                // Append the message element to the chat element.
-                chatMessageList.append(messageRow);
-            }
             )
         
             // Attach an event listener to the send box.
@@ -269,6 +273,8 @@ function runChat (user)
                 sendMessage(thisConvo);
             }});
 
+            });
+           
             // Try to send the currently-typed message.
             function sendMessage(thisConvo){
                     alert(5);
