@@ -27,7 +27,6 @@ const signupForm = document.querySelector('#signup-form');
 signupForm.addEventListener('submit', (e) => {
     // prevent refresh (losing info)
     e.preventDefault();
-    alert(signupForm.bio.value);
     // get user info
     const email = signupForm['signup-email'].value;
     const password = signupForm['signup-password'].value;
@@ -49,7 +48,7 @@ signupForm.addEventListener('submit', (e) => {
     })
 
     auth.onAuthStateChanged(user => {
-        db.collection('songs').doc(docID).update({
+        db.collection('users').doc(docID).update({
             userID: user.uid || "none"
         })
     })

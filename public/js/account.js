@@ -30,6 +30,7 @@ function displayAccount(user)
                     ageObject.value = doc.data().age;
                     fieldObject.value = doc.data().field;
                     skillsObject.value = doc.data().skills;
+                    bioObject.value = doc.data().bio;
                 }
 
             })
@@ -64,7 +65,7 @@ function updateAccount(user){
             age: form.age.value,
             field: form.field.value,
             skills: form.skills.value,
-            desc: form.bio.value,
+            bio: form.bio.value,
             email: user.email
         })
     }
