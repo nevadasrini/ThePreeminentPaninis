@@ -58,7 +58,7 @@ function runChat (user)
                 let conversationList = document.getElementById("conversation-list");
 
                 let pfp = document.createElement("img");
-                pfp.src = convoData.pfp;                        // Maybe change later, idk
+                pfp.src = convoData.pfp[1 - convoData.participants.indexOf(user.uid)];                        // Maybe change later, idk
                 
                 let titleText = document.createElement("div");
                 titleText.classList.add("title-text");
@@ -140,7 +140,7 @@ function runChat (user)
                     // If the other person sent it
                     messageRow.classList.add("other-message");
                     let messageImage = document.createElement("img");
-                    messageImage.src = thisConvo.pfp;
+                    messageImage.src = thisConvo.pfp[1 - thisConvo.participants.indexOf(user.uid)];
                     messageImage.height = "40px";
                     messageImage.width = "40px";
                     messageContent.appendChild(messageImage);
