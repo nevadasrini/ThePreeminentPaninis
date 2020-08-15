@@ -5,11 +5,29 @@ db = firebase.firestore();
 
 matchUser();
 
+toggleHidden(false);
+
+/*let thisUserInfo = getUserInfo(user.uid)
+console.log(thisUserInfo);
+
+
+function getUserInfo(userToken){
+    alert(userToken);
+    let docRef = db.collection("users").doc(userToken);
+    docRef.get().then(
+      function(doc) {
+          if(doc.exists) { 
+            console.log(doc.data());
+            return doc.data();
+          }
+        }).catch((error) => console.log(error));
+}   */
+
 
 function getUserInfo(email){
     return new Promise((resolve,reject)=>{
 
-    let docRef = db.collection("users").where("email","==",email).get().then(
+    db.collection("users").where("email","==",email).get().then(
       function(snapshot) {
           let doc = snapshot.docs[0];
           if(doc.exists) { 
@@ -97,10 +115,12 @@ function matchUser(){
 
         //match with pros in the same field
         let skillScore = [];
-        let docRef = db.collection("users").where("email","==","john@gmail.com").get().then(
+        console.log()
+        db.collection("users").where("field","==",currField).get().then(
             function(snapshot){
                 snapshot.docs.forEach(doc => {
-                   doc.skills.forEach(skill =>{
+                    let same = 0;
+                   doc.data().skills.forEach(skill =>{
                        for(let currSkill of currSkills){
                             if (skill.toLowerCase()==currSkill.toLowerCase()){
                                 same++;
@@ -109,14 +129,14 @@ function matchUser(){
                        }
                    })
     
-                   skillScore.push([same,doc]);
+                   skillScore.push([same,doc.data()]);
                    
                }); 
-            
+               console.log(skillScore);
                //order matches by compatibility of skills
                 for(let i=1; i<skillScore.length; i++){
                     let currMax = skillScore[i][0];
-                    for(let k=i+1; k>0;k--){
+                    for(let k=i; k>0;k--){
                         if(currMax>skillScore[k-1][0]){
                             skillScore[k][0]=skillScore[k-1][0];
                         }
@@ -128,11 +148,12 @@ function matchUser(){
                 }
 
                 skillScore.forEach(pair =>{
+                    alert(1);
                     createCollectionItem(pair[1].name, "desc", null, "#!", "#!")
                 });
 
         }).catch((error)=>console.log(error));
-    }).catch(console.log(error));    
+    }).catch((error)=>console.log(error));    
 }
 
 function checkIfEmpty() {
