@@ -162,9 +162,8 @@ function matchUser(){
                         }
                     })
                     skillScore.push([same, doc.data()]); 
-                    alert(2);     
                 }
-                else{
+                else if (!doc.exists){
                     //No matches found
                     let selectedNoMatch = document.getElementsByClassName("no-matches");
                     for (let i = 0 ; i < selectedNoMatch.length ; i++){
