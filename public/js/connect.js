@@ -1,6 +1,6 @@
 let thisUserInfo;
 
-createCollectionItem("Bryan Adams", "I used to be good at singing, but now I'm a full-stack developer.", null, "#!","#!");
+//createCollectionItem("Bryan Adams", "I used to be good at singing, but now I'm a full-stack developer.", null, "#!","#!");
 toggleHidden(false);
 //document.getElementById("find-button").addEventListener("click", getMatches)
 
@@ -146,6 +146,7 @@ function matchUser(){
 
     //match with pros in the same field
     let skillScore = [];
+    let noMatch = false;
     console.log(currUser);
     db.collection("users").where("field","==",currField).get().then(
         function(snapshot){
@@ -160,7 +161,8 @@ function matchUser(){
                                 }
                         }
                     })
-                    skillScore.push([same, doc.data()]);      
+                    skillScore.push([same, doc.data()]); 
+                    alert(2);     
                 }
                 else{
                     //No matches found
@@ -169,9 +171,11 @@ function matchUser(){
                         let curr = selectedNoMatch.item(i);
                         curr.classList.remove("hide");
                     }
+                    noMatch = true;
+                    return false;
                 }
                     }); 
-                    
+        if(!noMatch){
             //order matches by compatibility of skills
             for(let i=1; i<skillScore.length; i++){
                 let currMax = skillScore[i];
@@ -197,7 +201,7 @@ function matchUser(){
             });
             toggleHidden(true);
             return true;
-
+        }
     }).catch((error)=>{
         console.log(error);
         return false;
