@@ -14,19 +14,25 @@ auth.onAuthStateChanged(user => {
 
 function newChat(other){
     
-    otherInfo = getUserInfo(other).then(
-        db.collection('chat').doc().set({
-        //conversationID: ,
-        date: ,
-        latestMessage: "",
-        names: , 
-        participants:  ,
-        pfp:
-    });
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
 
-    )
+    getUserInfo(other).then(otherInfo =>{
 
-    
+        otherName = otherInfo.name
+        //otherParticipant =
+        otherPFP =
+
+        db.collection('conversations').doc().set({
+            //conversationID: ,
+            date: mm + '/' + dd,
+            //latestMessage: ,
+            names: [ , ], 
+            participants:  [ , ],
+            pfp: [ , ]
+        })
+    }).catch(error => console.log(error));
 }
 
 function runChat (user)
@@ -202,9 +208,9 @@ function runChat (user)
                 // Only send if something is typed.
                 if (message != "") {
                     // Retrieve the date and format it it into mm/dd format.
-                    var today = new Date();
-                    var dd = String(today.getDate()).padStart(2, '0');
-                    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                    let today = new Date();
+                    let dd = String(today.getDate()).padStart(2, '0');
+                    let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
                 
                     // Update the current conversation by adding the new message. The message is in the format [who sent it? 0 or 1, date in mm/dd format, message string]. Also update the conversation by updating the date.
                     let conversationReference = db.collection("conversations").doc(convo.id);
