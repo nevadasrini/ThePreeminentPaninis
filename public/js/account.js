@@ -21,7 +21,6 @@ function displayAccount(user)
 {
     if (user)
     {
-        
         db.collection('users').get().then((snapshot) => {
             snapshot.docs.forEach(doc => {
                 
@@ -65,7 +64,8 @@ function updateAccount(user){
             name: form.name.value,
             age: form.age.value,
             field: form.field.value,
-            skills: form.skills.value
+            skills: form.skills.value,
+            email: user.email
         })
     }
     else {

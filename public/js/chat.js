@@ -106,7 +106,7 @@ function runChat (user)
                 })
 
                 // Sets stored conversation.conversationId equal to the element's ID.
-                conversationElement.id = convoData.conversationId;
+                conversationElement.id = convoData.conversationID;
 
                 // Inserts the new sidebar element at the top.
                 conversationList.insertBefore(conversationElement, conversationList.childNodes[0]);
@@ -141,12 +141,12 @@ function runChat (user)
                 messageContent.classList.add("message-content");
 
                 // If the message's first element (either 0 or 1) matches the index of the logged-in user's uid in the "participant" array, the message was sent by the logged-in user and should be displayed as "your message."
-                if(thisConvo.participants[message[0]] == user.uid){
+                if(thisConvo.participants[message.par] == user.uid){
                     // If you sent it
                     messageRow.classList.add("you-message");
                 }
                 // Otherwise, display as the other person's message. Maybe change to an "else" statement.
-                else if(thisConvo.participants[message[0]] != user.uid){
+                else if(thisConvo.participants[message.par] != user.uid){
                     // If the other person sent it
                     messageRow.classList.add("other-message");
                     let messageImage = document.createElement("img");
@@ -159,12 +159,12 @@ function runChat (user)
                 // The message text is the third element in the array.
                 let messageText = document.createElement("div");
                 messageText.classList.add("message-text");
-                messageText.innerHTML = message[2];
+                messageText.innerHTML = message.text;
 
                 // The message time is the second element in the array.
                 let messageTime = document.createElement("div");
                 messageTime.classList.add("message-time");
-                messageTime.innerHTML = message[1];
+                messageTime.innerHTML = message.date;
 
                 messageContent.appendChild(messageText);
                 messageContent.appendChild(messageTime);
@@ -200,10 +200,19 @@ function runChat (user)
                     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
                 
                     // Update the current conversation by adding the new message. The message is in the format [who sent it? 0 or 1, date in mm/dd format, message string]. Also update the conversation by updating the date.
-                    db.collection("conversations").where("conversationId", "==", convo.conversationId).update(
+                    let conversationReference = db.collection("conversations").where("conversationID", "==", convo.conversationId);
+                    conversationReference.update(
                         {
-                            messages: thisConvo.messages.concat([thisConvo.participants.indexOf(user.uid), mm + '/' + dd, message]),
-                            date: String(mm + "/" + dd)
+                            date: String(mm + "/" + dd),
+                            latestMessage: message
+                        }
+                    )
+                    // Update the message fields.
+                    conversationReference.collection("messages").add(
+                        {
+                            date: thisConvo.participants.indexOf(user.uid),
+                            par: mm + '/' + dd,
+                            text: message
                         }
                     )
                 }
