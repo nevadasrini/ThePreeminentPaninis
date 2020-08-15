@@ -81,7 +81,8 @@ function newChat(otherInfo){
         participants:  [userInfo.email, otherInfo.email], //change to id?? some sort of unique identifier
         //pfp: [userInfo.pfp, otherInfo.pfp]
     })
-    alert("complete");
+    console.log("complete");
+    runChat(currUser);
     
 }
 
