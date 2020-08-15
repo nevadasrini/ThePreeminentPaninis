@@ -152,9 +152,7 @@ function matchUser(){
                                 }
                         }
                     })
-                    skillScore.push([same,doc.data()]);
-                        
-                        
+                    skillScore.push([same,doc.data()]);      
                 }
                     }); 
                     
@@ -174,7 +172,7 @@ function matchUser(){
             }
             console.log(skillScore);
             skillScore.forEach(pair =>{
-                createCollectionItem(pair[1].name, "desc", null, "#!", "#!")
+                createCollectionItem(pair[1].name, "desc", null, `account.html?other=${pair[1].email}`, `chat.html?other=${pair[1].email}`)
             });
             toggleHidden(true);
             return true;

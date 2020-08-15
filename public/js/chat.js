@@ -12,6 +12,16 @@ auth.onAuthStateChanged(user => {
     }
 })
 
+function newChat(other){
+    db.collection('chat').doc().set({
+        name: signupForm.name.value,
+        age: signupForm.age.value,
+        field: signupForm.field.value,
+        skills: [signupForm.skills.value], //parseCSV(signupForm.skills.value),
+        email: signupForm.email.value
+    })
+}
+
 function runChat (user)
 {
     // If the user is signed in, run.
