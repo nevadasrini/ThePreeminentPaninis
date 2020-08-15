@@ -1,10 +1,31 @@
+let userInfo;
+
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const other = urlParams.get("other");
 
 // Check if the user is signed in.
 auth.onAuthStateChanged(user => {
     // If so, run main app.
     if (user) {
-        console.log('user logged in: ', user)
-        runChat(user);
+        console.log('user logged in: ', user);
+
+        try{
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const other = urlParams.get('other');
+
+            newChat(other)
+        }catch(error){
+            console.log(error);
+            console.log("Loading existing chats.");
+        }
+
+        getUserInfo(user.email).then(userInfo=>{
+            userInfo = info;
+            console.log(userInfo);
+            runChat(user);
+        })
     }
     else {
         runChat();
@@ -13,19 +34,23 @@ auth.onAuthStateChanged(user => {
 })
 
 function newChat(other){
-
+    
     let today = new Date();
     let dd = String(today.getDate()).padStart(2, '0');
     let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
 
-    db.collection('conversations').doc().set({
-        //conversationID: ,
-        date: mm + '/' + dd,
-        latestMessage: ,
-        names: [ , ], 
-        participants:  [ , ],
-        pfp: [ , ]
-    })
+    getUserInfo(other).then(otherInfo =>{
+
+        db.collection('conversations').doc().set({
+            //conversationID: ,
+            date: mm + '/' + dd,
+            latestMessage: "",
+            names: [userInfo.name, otherInfo.name], 
+            participants:  [ userInfo.email, otherInfo.email], //change to id??
+            pfp: [userInfo.pfp, otherInfo.pfp]
+        })
+
+    }).catch(error => console.log(error));
 }
 
 function runChat (user)
