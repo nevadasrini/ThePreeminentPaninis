@@ -38,8 +38,9 @@ function runConnect(user){
 }   */
 
 function toggleHidden(matched) {
-    selectedMatch = document.getElementsByClassName("matched");
-    selectedUnmatched = document.getElementsByClassName("unmatched");
+    let selectedMatch = document.getElementsByClassName("matched");
+    let selectedUnmatched = document.getElementsByClassName("unmatched");
+    let selectedNoMatch = document.getElementsByClassName("no-matches");
     
     for (let i = 0 ; i < selectedMatch.length ; i++){
         let curr = selectedMatch.item(i);
@@ -62,6 +63,13 @@ function toggleHidden(matched) {
             try {
                 curr.classList.remove("hide")
             }catch(e){}
+        }
+    }
+
+    for (let i = 0 ; i < selectedNoMatch.length ; i++){
+        let curr = selectedNoMatch.item(i);
+        if(matched){
+            curr.classList.add("hide");
         }
     }
 }
@@ -154,6 +162,14 @@ function matchUser(){
                     })
                     skillScore.push([same,doc.data()]);      
                 }
+                else{
+                    //No matches found
+                    let selectedNoMatch = document.getElementsByClassName("no-matches");
+                    for (let i = 0 ; i < selectedNoMatch.length ; i++){
+                        let curr = selectedNoMatch.item(i);
+                        curr.classList.remove("hide");
+                    }
+                }
                     }); 
                     
             //order matches by compatibility of skills
@@ -173,7 +189,7 @@ function matchUser(){
             }
             console.log(skillScore);
             skillScore.forEach(pair =>{
-                if(pair[1].desc.trim() == ""){
+                if(true){//pair[1].desc && pair[1].desc.trim() == ""){
                     pair[1].desc = "Hi! I'm " + pair[1].name + " and my skills include: " + pair[1].skills;
                 }
                 createCollectionItem(pair[1].name, pair[1].desc, null, `account.html?other=${pair[1].email}`, `chat.html?other=${pair[1].email}`)
