@@ -6,7 +6,7 @@
 // creates objects
 const loggedOutLinks = document.querySelectorAll('.logged-out');
 const loggedInLinks = document.querySelectorAll('.logged-in');
-
+const accountDetails = document.getElementsByClassName('account-details')[0];
 
 // 
 const setupUI = (user) => {

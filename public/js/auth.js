@@ -4,6 +4,14 @@
 // Task Description: Handles user authentication (log in, sign up, log out) and tracks user auth status
 
 // listen for auth status changes and logs them to the console
+
+function parseCSV(csv) {
+    let x = csv.split(",");
+    for(let i=0; i< x.length; i++){
+        x[i]=x[i].trim()
+    }
+}
+
 auth.onAuthStateChanged(user => {
     if (user) {
         console.log('user logged in: ', user)
@@ -28,7 +36,7 @@ signupForm.addEventListener('submit', (e) => {
         name: signupForm.name.value,
         age: signupForm.age.value,
         field: signupForm.field.value,
-        skills: signupForm.skills.value,
+        skills: [signupForm.skills.value], //parseCSV(signupForm.skills.value),
         email: signupForm.email.value
     })
 
