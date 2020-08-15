@@ -6,7 +6,7 @@
 // creates objects
 const loggedOutLinks = document.querySelectorAll('.logged-out');
 const loggedInLinks = document.querySelectorAll('.logged-in');
-
+const accountDetails = document.getElementsByClassName('account-details')[0];
 
 // 
 const setupUI = (user) => {
@@ -15,9 +15,9 @@ const setupUI = (user) => {
         db.collection('users').doc(user.uid).get().then(doc => {
             const html = `
               <div>Logged in as ${user.email}</div>
-              <div>${doc.data().name}</div>
+              
               <div class="pink-text">${user.admin ? 'Admin' : ''}</div>
-            `;
+            `;//<div>${doc.data().name}</div>
             accountDetails.innerHTML = html;
           });
 

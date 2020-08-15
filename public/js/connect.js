@@ -27,7 +27,6 @@ function runConnect(user){
 }
 
 /*function getUserInfo(userToken){
-    alert(userToken);
     let docRef = db.collection("users").doc(userToken);
     docRef.get().then(
       function(doc) {
@@ -37,25 +36,6 @@ function runConnect(user){
           }
         }).catch((error) => console.log(error));
 }   */
-
-function getUserInfo(email){
-    return new Promise((resolve,reject)=>{
-
-        db.collection("users").where("email","==",email).get().then(
-        function(snapshot) {
-            let doc = snapshot.docs[0];
-            if(doc.exists) { 
-                console.log(doc.data());
-                resolve(doc.data());
-            }
-            else{
-                reject("error");
-            }
-            }).catch((error) => reject(error));
-
-    })
-    
-}
 
 function toggleHidden(matched) {
     selectedMatch = document.getElementsByClassName("matched");
@@ -149,8 +129,8 @@ function matchUser(){
     //then search database
 
     let currUser = null;
-    getUserInfo("john@gmail.com").then((user)=> {
-        currUser = user
+    getUserInfo("johnny@gmail.com").then((info)=> {
+        currUser = info;
 
 
         let currField = currUser.field;
@@ -162,34 +142,37 @@ function matchUser(){
         db.collection("users").where("field","==",currField).get().then(
             function(snapshot){
                 snapshot.docs.forEach(doc => {
-                    let same = 0;
-                   doc.data().skills.forEach(skill =>{
-                       for(let currSkill of currSkills){
-                            if (skill.toLowerCase()==currSkill.toLowerCase()){
-                                same++;
-                                break;
+                    if(doc.exists){
+                        let same = 0;
+                        doc.data().skills.forEach(skill =>{
+                            for(let currSkill of currSkills){ 
+                                    if (skill.toLowerCase()==currSkill.toLowerCase()){
+                                        same++;
+                                        break;
+                                    }
                             }
-                       }
-                   })
-    
-                   skillScore.push([same,doc.data()]);
-                   
-               }); 
-               console.log(skillScore);
+                        })
+                        skillScore.push([same,doc.data()]);
+                        
+                        
+                    }
+                        }); 
+                    
+               
                //order matches by compatibility of skills
                 for(let i=1; i<skillScore.length; i++){
-                    let currMax = skillScore[i][0];
+                    let currMax = skillScore[i];
                     for(let k=i; k>0;k--){
-                        if(currMax>skillScore[k-1][0]){
-                            skillScore[k][0]=skillScore[k-1][0];
+                        if(currMax[0]>skillScore[k-1][0]){
+                            skillScore[k]=skillScore[k-1];
                         }
                         else{
-                            skillScore[k][0]=currMax;
+                            skillScore[k]=currMax;
                             break;
                          }
                     }
                 }
-
+                console.log(skillScore);
                 skillScore.forEach(pair =>{
                     createCollectionItem(pair[1].name, "desc", null, "#!", "#!")
                 });

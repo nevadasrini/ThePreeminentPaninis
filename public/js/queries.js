@@ -19,22 +19,27 @@ class User{
     } 
 };
 
-/*
+
   /**
-   * @param {string} userToken - identifier of user info wanted
-   *//*
+   * @param {string} email - identifier of user info wanted
+   */
 
 
-function getUserInfo(userToken){
-    alert(userToken);
-    let docRef = db.collection("users").doc(userToken);
-    docRef.get().then(
-      function(doc) {
-          if(doc.exists) { 
-            console.log(doc.data());
-            return doc.data();
-          }
-        }
-    ).catch((error) => console.log(error));
-  }
-*/
+  function getUserInfo(email){ /*in future want to use user ID*/
+    return new Promise((resolve,reject)=>{
+
+        db.collection("users").where("email","==",email).get().then(
+        function(snapshot) {
+            let doc = snapshot.docs[0];
+            if(doc.exists) { 
+                console.log(doc.data());
+                resolve(doc.data());
+            }
+            else{
+                reject("error");
+            }
+            }).catch((error) => reject(error));
+
+    })
+    
+}
