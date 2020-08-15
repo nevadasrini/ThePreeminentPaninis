@@ -49,7 +49,7 @@ signupForm.addEventListener('submit', (e) => {
     })
 
     auth.onAuthStateChanged(user => {
-        db.collection('users').doc(docID).update({
+        db.collection('songs').doc(docID).update({
             userID: user.uid || "none"
         })
     })
