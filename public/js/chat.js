@@ -4,7 +4,7 @@ auth.onAuthStateChanged(user => {
     // If so, run main app.
     if (user) {
         console.log('user logged in: ', user);
-        getUserInfo(user.email).then(userInfo=>{
+        getUserInfo(user.email).then(info=>{
             userInfo = info;
             console.log(userInfo);
             runChat(user);
