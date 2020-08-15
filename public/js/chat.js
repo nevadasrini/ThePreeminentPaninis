@@ -22,7 +22,7 @@ auth.onAuthStateChanged(user => {
                 const urlParams = new URLSearchParams(queryString);
                 const other = urlParams.get('other');
                 
-                checkPerson("john@gmail.com");
+                checkPerson(other);
             }catch(error){
                 console.log(error);
                 console.log("Loading existing chats.");
@@ -41,9 +41,11 @@ function checkPerson(other){
     getUserInfo(other).then(info =>{
         otherInfo = info;
         console.log([userInfo.email,otherInfo.email]);
+        
         return db.collection('conversations').where("participants","array-contains",userInfo.email).get()
 
     }).then(snapshot=>{
+        
         if (snapshot.docs[0] && snapshot.docs[0].exists){
             //open convo
             let alreadyMade;

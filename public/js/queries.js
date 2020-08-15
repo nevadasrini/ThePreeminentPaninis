@@ -36,7 +36,7 @@ class User{
                 resolve(doc.data());
             }
             else{
-                reject("error");
+                reject("Error user does not exist.");
             }
             }).catch((error) => reject(error));
 

@@ -17,7 +17,7 @@ auth.onAuthStateChanged(user => {
 function runConnect(user){
     if(user){
         getUserInfo(user.email).then(info => {
-            thisUserInfo = info
+            thisUserInfo = info;
             console.log(thisUserInfo);
             console.log(thisUserInfo.age);
         }
@@ -156,19 +156,20 @@ function matchUser(){
                 }
                     }); 
                     
-               
             //order matches by compatibility of skills
             for(let i=1; i<skillScore.length; i++){
                 let currMax = skillScore[i];
-                for(let k=i; k>0;k--){
+                let k = i;
+                for(k; k>0;k--){
                     if(currMax[0]>skillScore[k-1][0]){
                         skillScore[k]=skillScore[k-1];
                     }
                     else{
-                        skillScore[k]=currMax;
+                        
                         break;
                     }
                 }
+                skillScore[k]=currMax;
             }
             console.log(skillScore);
             skillScore.forEach(pair =>{
