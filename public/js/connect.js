@@ -1,9 +1,14 @@
-createCollectionItem("Bryan Adams", "I used to be good at singing, but now I'm a full-stack developer.", null, "#!","#!");
+
+
+//createCollectionItem("Bryan Adams", "I used to be good at singing, but now I'm a full-stack developer.", null, "#!","#!");
+db = firebase.firestore();
+
+matchUser();
 
 toggleHidden(false);
 //document.getElementById("find-button").addEventListener("click", getMatches)
 
-auth.onAuthStateChanged(user => {
+/*auth.onAuthStateChanged(user => {
     if (user) {
         console.log('user logged in: ', user)
         runConnect(user);
@@ -31,6 +36,26 @@ function getUserInfo(userToken){
             return doc.data();
           }
         }).catch((error) => console.log(error));
+}   */
+
+
+function getUserInfo(email){
+    return new Promise((resolve,reject)=>{
+
+    db.collection("users").where("email","==",email).get().then(
+      function(snapshot) {
+          let doc = snapshot.docs[0];
+          if(doc.exists) { 
+            console.log(doc.data());
+            resolve(doc.data());
+          }
+          else{
+            reject("error");
+          }
+        }).catch((error) => reject(error));
+
+    })
+    
 }
 
 function createCollectionItem(name, desc, profilePic, infoLink, messageLink){
@@ -87,6 +112,63 @@ function createCollectionItem(name, desc, profilePic, infoLink, messageLink){
     item.appendChild(message);
     
     document.getElementsByClassName("collection")[0].appendChild(item);
+}
+
+function matchUser(){
+
+//get current user's skill set and field
+    //identify via custom id token, grab email address
+    //then search database
+
+    let currUser = null
+    getUserInfo("john@gmail.com").then((user)=> {
+        currUser = user
+
+
+        let currField = currUser.field;
+        let currSkills = currUser.skills;
+
+        //match with pros in the same field
+        let skillScore = [];
+        console.log()
+        db.collection("users").where("field","==",currField).get().then(
+            function(snapshot){
+                snapshot.docs.forEach(doc => {
+                    let same = 0;
+                   doc.data().skills.forEach(skill =>{
+                       for(let currSkill of currSkills){
+                            if (skill.toLowerCase()==currSkill.toLowerCase()){
+                                same++;
+                                break;
+                            }
+                       }
+                   })
+    
+                   skillScore.push([same,doc.data()]);
+                   
+               }); 
+               console.log(skillScore);
+               //order matches by compatibility of skills
+                for(let i=1; i<skillScore.length; i++){
+                    let currMax = skillScore[i][0];
+                    for(let k=i; k>0;k--){
+                        if(currMax>skillScore[k-1][0]){
+                            skillScore[k][0]=skillScore[k-1][0];
+                        }
+                        else{
+                            skillScore[k][0]=currMax;
+                            break;
+                         }
+                    }
+                }
+
+                skillScore.forEach(pair =>{
+                    alert(1);
+                    createCollectionItem(pair[1].name, "desc", null, "#!", "#!")
+                });
+
+        }).catch((error)=>console.log(error));
+    }).catch((error)=>console.log(error));    
 }
 
 function checkIfEmpty() {
