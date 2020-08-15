@@ -215,7 +215,9 @@ function runChat (user)
             // Clear container of current contents.
             chatMessageList.innerHTML = "";
             
-            db.collection('conversations').doc(doc.id).collection("messages").get().then( snapshot=>{
+            let convoRef = db.collection('conversations').doc(doc.id).collection("messages")
+
+            convoRef.orderBy("index", "desc").get().then( snapshot=>{
 
                 let thisConvo = snapshot.docs;
                  // Iterate through the messages of the given conversation.
@@ -278,7 +280,7 @@ function runChat (user)
             // Try to send the currently-typed message.
             function sendMessage(doc){
                 let convo = doc.data();
-                    alert(5);
+                    //alert(5);
                 let messageBox = document.getElementById("send-box");
                 // Trim whitespace from either end of the value.
                 let message = messageBox.value.trim();
@@ -299,14 +301,21 @@ function runChat (user)
                             latestMessage: message
                         }
                     );
-                    // Update the message fields.
+
+                    conversationReference.collection("messages").get().then( snapshot=>{
+
+                        return snapshot.docs.length;
+
+                    }).then( numOfMess =>{
+                        // Update the message fields.
                     conversationReference.collection("messages").add(
                         {
                             par: convo.participants.indexOf(userInfo.email),//user.uid),
                             date: mm + '/' + dd,
-                            text: message
-                        }
-                    )
+                            text: message,
+                            index: numOfMess+1
+                        })
+                    })
                 }
             }
         
