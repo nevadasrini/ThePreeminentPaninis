@@ -270,13 +270,14 @@ function runChat (user)
             event.preventDefault();
             // If the enter key is pressed and released, try to send the currently-typed message.
             if (event.keyCode === 13) {
-                sendMessage(thisConvo);
+                sendMessage(doc);
             }});
 
             });
            
             // Try to send the currently-typed message.
-            function sendMessage(thisConvo){
+            function sendMessage(doc){
+                let convo = doc.data();
                     alert(5);
                 let messageBox = document.getElementById("send-box");
                 // Trim whitespace from either end of the value.
@@ -291,17 +292,17 @@ function runChat (user)
                     let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
                 
                     // Update the current conversation by adding the new message. The message is in the format [who sent it? 0 or 1, date in mm/dd format, message string]. Also update the conversation by updating the date.
-                    let conversationReference = db.collection("conversations").doc(convo.id);
+                    let conversationReference = db.collection("conversations").doc(doc.id);
                     conversationReference.update(
                         {
                             date: String(mm + "/" + dd),
                             latestMessage: message
                         }
-                    )
+                    );
                     // Update the message fields.
                     conversationReference.collection("messages").add(
                         {
-                            par: thisConvo.participants.indexOf(user.uid),
+                            par: convo.participants.indexOf(userInfo.email),//user.uid),
                             date: mm + '/' + dd,
                             text: message
                         }
