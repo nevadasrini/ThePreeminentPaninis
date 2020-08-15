@@ -13,14 +13,20 @@ auth.onAuthStateChanged(user => {
 })
 
 function newChat(other){
-    db.collection('chat').doc().set({
+    
+    otherInfo = getUserInfo(other).then(
+        db.collection('chat').doc().set({
         //conversationID: ,
         date: ,
-        latestMessage: ,
+        latestMessage: "",
         names: , 
         participants:  ,
         pfp:
-    })
+    });
+
+    )
+
+    
 }
 
 function runChat (user)
