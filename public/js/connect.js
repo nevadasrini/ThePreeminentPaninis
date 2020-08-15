@@ -130,6 +130,8 @@ function createCollectionItem(name, desc, profilePic, infoLink, messageLink){
     document.getElementsByClassName("collection")[0].appendChild(item);
 }
 
+let storedResults;
+
 function matchUser(){
 
 //get current user's skill set and field
@@ -137,7 +139,7 @@ function matchUser(){
     //then search database
     if(!thisUserInfo){
         setTimeout(function(){matchUser()}, 200);
-        return false;
+        return 0;
     }
     let currUser = thisUserInfo;
 
@@ -164,7 +166,7 @@ function matchUser(){
                     skillScore.push([same, doc.data()]); 
     
                 }
-                else{
+                else if (!doc.exists){
                     //No matches found
                     let selectedNoMatch = document.getElementsByClassName("no-matches");
                     for (let i = 0 ; i < selectedNoMatch.length ; i++){
@@ -172,7 +174,7 @@ function matchUser(){
                         curr.classList.remove("hide");
                     }
                     noMatch = true;
-                    return false;
+                    return 0;
                 }
                     }); 
         if(!noMatch){
@@ -191,22 +193,31 @@ function matchUser(){
                 }
                 skillScore[k]=currMax;
             }
-            console.log(skillScore);
-            skillScore.forEach(pair =>{
-                let d = pair[1].desc;
-                if(!d || d.trim() == ""){
-                    d = "Hi! I'm " + pair[1].name + " and my skills include: " + pair[1].skills;
-                }
-                createCollectionItem(pair[1].name, d, null, `info.html?other=${pair[1].email}`, `chat.html?other=${pair[1].email}`)
-            });
+            storedResults = skillScore;
+            let returner = displayMoreMatches(0);
             toggleHidden(true);
-            return true;
+            return returner;
         }
     }).catch((error)=>{
         console.log(error);
-        return false;
+        return 0;
     });
        
+}
+
+function displayMoreMatches(currResults)
+{
+    let count = 0;
+    for (i = currResults ; i < storedResults.length && i < currResults + 10 ; i++)
+    {
+        count += 1;
+        let thisResult = storedResults[i][1];
+        let d = thisResult.desc;
+        if(!d || d.trim() == ""){
+            d = "Hi! I'm " + thisResult.name + " and my skills include: " + thisResult.skills;
+        }
+        createCollectionItem(thisResult.name, d, null, `info.html?other=${thisResult.email}`, `chat.html?other=${thisResult.email}`);
+    }
 }
 
 function checkIfEmpty() {
@@ -218,5 +229,14 @@ function checkIfEmpty() {
 }
 
 
+let currentResultCount = 0;
 
+let findBtn = document.getElementById('find-button');
+let moreBtn = document.getElementById('load-more-button');
 
+findBtn.addEventListener("click", function () {
+    currentResultCount += matchUser();
+})
+moreBtn.addEventListener("click", function () {
+    currentResultCount += displayMoreMatches(currentResultCount);
+})
