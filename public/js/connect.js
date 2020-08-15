@@ -171,10 +171,10 @@ function matchUser(){
                 }
             }
             console.log(skillScore);
-            if(pair[1].desc.trim() == ""){
-                pair[1].desc = "Hi! I'm " + pair[1].name + " and my skills include: " + pair[1].skills;
-            }
             skillScore.forEach(pair =>{
+                if(pair[1].desc.trim() == ""){
+                    pair[1].desc = "Hi! I'm " + pair[1].name + " and my skills include: " + pair[1].skills;
+                }
                 createCollectionItem(pair[1].name, pair[1].desc, null, `account.html?other=${pair[1].email}`, `chat.html?other=${pair[1].email}`)
             });
             toggleHidden(true);
