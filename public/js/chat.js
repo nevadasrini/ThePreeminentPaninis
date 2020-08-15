@@ -89,25 +89,28 @@ function newChat(otherInfo){
 }
 
 function runChat (user)
-{
+{   
     // If the user is signed in, run.
     let allMyConvos = [];
     if (user)
     {
+        
         // Retrieve all conversations where the logged-in user is a participant.
-        db.collection('conversations').where("participants", "array-contains", String(user.uid)).get().then((snapshot) => {
+        db.collection('conversations').where("participants", "array-contains", userInfo.email/*String(user.uid)*/).get().then((snapshot) => {
             snapshot.docs.forEach(doc => {
                 
-                if (doc.data().userID == user.uid){
-                    
-                    allMyConvos = doc.data(); 
+                //if (doc.data().userID == user.uid){
+                    allMyConvos.push(doc.data()); 
 
-                }
+               // }
 
             })
-        })
+        }).catch(error=>console.log(error));
 
         // Iterate through the user's existing conversations.
+        console.log("oops");
+        console.log(allMyConvos);
+        allMyConvos.push(1);
         console.log(allMyConvos);
 
         allMyConvos.forEach( function(convo){
@@ -123,13 +126,14 @@ function runChat (user)
 
             // Update the conversation. 
             function updateMyConvo(data)
-            {
+            {   
+                alert(2);
                 renderConvoOnSideBar(data);
             }
 
             // Render new sidebar, and attach new listener for rendering conversation messages.s
             function renderConvoOnSideBar(convoData){
-            
+                alert(3);
                 // Create the new sidebar element to be added.
                 let conversationList = document.getElementById("conversation-list");
 
@@ -182,7 +186,7 @@ function runChat (user)
 
         // Displays the messages the convo is clicked.
         function displayConversation(convo){
-
+            alert(4);
             // First change the title.
             let chatTitle = document.getElementById("chat-title");
             chatTitle.innerHTML = "";
@@ -253,6 +257,7 @@ function runChat (user)
 
             // Try to send the currently-typed message.
             function sendMessage(thisConvo){
+                    alert(5);
                 let messageBox = document.getElementById("send-box");
                 // Trim whitespace from either end of the value.
                 let message = messageBox.value.trim();

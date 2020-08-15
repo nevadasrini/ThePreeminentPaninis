@@ -162,7 +162,7 @@ function matchUser(){
                         }
                     })
                     skillScore.push([same, doc.data()]); 
-                    alert(2);     
+    
                 }
                 else{
                     //No matches found
