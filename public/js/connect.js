@@ -1,10 +1,25 @@
 createCollectionItem("Bryan Adams", "I used to be good at singing, but now I'm a full-stack developer.", null, "#!","#!");
 
 toggleHidden(false);
+//document.getElementById("find-button").addEventListener("click", getMatches)
 
-let thisUserInfo = getUserInfo(user.uid)
-console.log(thisUserInfo);
+auth.onAuthStateChanged(user => {
+    if (user) {
+        console.log('user logged in: ', user)
+        runConnect(user);
+    } else {
+        runConnect();
+        console.log('user logged out')
+    }
+})
 
+function runConnect(user){
+    if(user){
+        let thisUserInfo = getUserInfo(user.uid);
+        console.log(thisUserInfo);
+        //console.log(thisUserInfo.age);
+    }
+}
 
 function getUserInfo(userToken){
     alert(userToken);
