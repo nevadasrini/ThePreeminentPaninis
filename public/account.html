@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>Connect-COV</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+</head>
+<body>
+    <nav class="light-blue lighten-1" role="navigation">
+        <div class="nav-wrapper container"><a id="logo-container" href="index.html" class="brand-logo">Logo</a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="index.html">Home</a></li>
+            <li class="logged-in"><a href = "connect.html" class="modal-trigger">Connect</a></li> 
+            <li class="logged-in"><a href = "chat.html" class="modal-trigger">Chat</a></li> 
+            <li class="logged-in"><a href="account.html">Account</a></li> 
+            <li class="logged-out"><a href = "#" class="modal-trigger" data-target="modal-login">Log In</a></li>
+            <li class="logged-out"><a href = "#" class="modal-trigger" data-target="modal-signup">Sign Up</a></li> 
+            <li class="logged-in"><a href = "#" class="modal-trigger" data-target="modal-logout" id="logout">Log Out</a></li> 
+          </ul>
+    
+          <ul id="nav-mobile" class="sidenav">
+            <li><a href="index.html">Home</a></li>
+            <li><a href = "connect.html">Connect</a></li>
+          </ul>
+          <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        </div>
+    </nav>
+  <!--  Scripts-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-auth.js"></script>
+
+  <script>
+    // web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyBm-4tu-ZW5kdpLkUw6OLxFjB_ajLJFEnY",
+      authDomain: "preeminent-paninis.firebaseapp.com",
+      databaseURL: "https://preeminent-paninis.firebaseio.com",
+      projectId: "preeminent-paninis",
+      storageBucket: "preeminent-paninis.appspot.com",
+      messagingSenderId: "1025410002463",
+      appId: "1:1025410002463:web:40cec81a8b2a7c8f7caf2a",
+      measurementId: "G-Y35S3D1RJ4"
+    };
+     // Initialize Firebase
+     firebase.initializeApp(firebaseConfig);
+
+    // make auth and firestore references
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+  </script>
+
+  
+  <script src="js/auth.js"></script>
+  <script src="js/index.js"></script>
+  
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
+  <script src="js/queries.js"></script>
+  </body>
+</html>
