@@ -7,6 +7,7 @@ auth.onAuthStateChanged(user => {
         getUserInfo(user.email).then(info=>{
             userInfo = info;
             console.log(userInfo);
+            newChat("john@gmail.com");
             runChat(user);
         })
     }
@@ -29,7 +30,7 @@ function newChat(other){
             date: mm + '/' + dd,
             latestMessage: "",
             names: [userInfo.name, otherInfo.name], 
-            participants:  [ userInfo.email, otherInfo.email], //change to id??
+            participants:  [userInfo.email, otherInfo.email], //change to id?? some sort of unique identifier
             pfp: [userInfo.pfp, otherInfo.pfp]
         })
 
