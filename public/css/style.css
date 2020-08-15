@@ -35,3 +35,10 @@ label{
 h6{
   color: rgb(173, 173, 173);
 }
+
+.account-pic{
+  width: 10%;
+  border-radius: 50%;
+  float:left;
+}
+
