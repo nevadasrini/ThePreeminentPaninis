@@ -86,7 +86,7 @@ function runChat (user)
                 let conversationElement;
                 try {
                     // Can identify if an element already exists for this conversation because the stored conversationId is equal to the element's ID.
-                    conversationElement = document.getElementById(convoData.conversationId);
+                    conversationElement = document.getElementById(convoData.id);
                     // Removes existing element if it is found.
                     conversationList.removeChild(conversationElement);
                 } catch (error) {
@@ -106,7 +106,7 @@ function runChat (user)
                 })
 
                 // Sets stored conversation.conversationId equal to the element's ID.
-                conversationElement.id = convoData.conversationID;
+                conversationElement.id = convoData.id;
 
                 // Inserts the new sidebar element at the top.
                 conversationList.insertBefore(conversationElement, conversationList.childNodes[0]);
@@ -200,7 +200,7 @@ function runChat (user)
                     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
                 
                     // Update the current conversation by adding the new message. The message is in the format [who sent it? 0 or 1, date in mm/dd format, message string]. Also update the conversation by updating the date.
-                    let conversationReference = db.collection("conversations").where("conversationID", "==", convo.conversationId);
+                    let conversationReference = db.collection("conversations").doc(convo.id);
                     conversationReference.update(
                         {
                             date: String(mm + "/" + dd),
