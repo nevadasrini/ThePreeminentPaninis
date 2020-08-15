@@ -1,10 +1,13 @@
-
+let userInfo;
 // Check if the user is signed in.
 auth.onAuthStateChanged(user => {
     // If so, run main app.
     if (user) {
-        console.log('user logged in: ', user)
-        runChat(user);
+        console.log('user logged in: ', user);
+        getUserInfo(user.email).then(userInfo=>{
+            userInfo = info;
+            runChat(user);
+        })
     }
     else {
         runChat();
@@ -20,17 +23,13 @@ function newChat(other){
 
     getUserInfo(other).then(otherInfo =>{
 
-        otherName = otherInfo.name
-        //otherParticipant =
-        otherPFP =
-
         db.collection('conversations').doc().set({
             //conversationID: ,
             date: mm + '/' + dd,
-            //latestMessage: ,
-            names: [ , ], 
+            latestMessage: "",
+            names: [userInfo.name, otherInfo.name], 
             participants:  [ , ],
-            pfp: [ , ]
+            pfp: [userInfo.pfp, otherInfo.pfp]
         })
     }).catch(error => console.log(error));
 }
