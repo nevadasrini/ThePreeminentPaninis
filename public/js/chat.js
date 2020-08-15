@@ -1,9 +1,26 @@
 let userInfo;
+
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const other = urlParams.get("other");
+
 // Check if the user is signed in.
 auth.onAuthStateChanged(user => {
     // If so, run main app.
     if (user) {
         console.log('user logged in: ', user);
+
+        try{
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const other = urlParams.get('other');
+
+            newChat(other)
+        }catch(error){
+            console.log(error);
+            console.log("Loading existing chats.");
+        }
+
         getUserInfo(user.email).then(userInfo=>{
             userInfo = info;
             runChat(user);
