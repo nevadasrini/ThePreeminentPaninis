@@ -142,7 +142,7 @@ function matchUser(){
     db.collection("users").where("field","==",currField).get().then(
         function(snapshot){
             snapshot.docs.forEach(doc => {
-                if(doc.exists){
+                if(doc.exists && doc.data().email != currUser.email){
                     let same = 0;
                     doc.data().skills.forEach(skill =>{
                         for(let currSkill of currSkills){ 
