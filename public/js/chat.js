@@ -37,7 +37,13 @@ function runChat (user)
 
             function updateMyConvo(data)
             {
-                convo.messages = data.messages;
+                // Update the message list if a message was added.
+                if (length(data.messages) > length(convo.messages)){
+                    for (i = length(convo.messages) ; i < length(data.messages) ; i++){
+                        // Add the message to convo.messages, but reverse the 0s and 1s of the first element.
+                        convo.messages.push([1 - data.messages[i][0]].concat(data.messages[i].slice(1, 3)))
+                    }
+                }
                 convo.pfp = data.pfp;
                 convo.latestMessage = data.messages[length(data.messages) - 1][2];
                 convo.date = data.date;
@@ -126,10 +132,10 @@ function runChat (user)
             .addEventListener("keyup", function(event) {
             event.preventDefault();
             if (event.keyCode === 13) {
-                sendMessage();
+                sendMessage(convoNumber);
             }});
 
-            function sendMessage(){
+            function sendMessage(cN){
                 let messageBox = document.getElementById("send-box");
                 let message = messageBox.value.trim();
                 messageBox.value = "";
@@ -139,8 +145,9 @@ function runChat (user)
                     var dd = String(today.getDate()).padStart(2, '0');
                     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
                 
-                    thisConvo.messages.push([0, mm + '/' + dd, message]);   // FIGURE THIS OUT
-                    thisConvo.date = (mm + '/' + dd);
+                    tC = thisUser.convos[cN];
+                    tC.messages.push([0, mm + '/' + dd, message]);   // FIGURE THIS OUT
+                    tC.date = (mm + '/' + dd);
                 }
             }
         
