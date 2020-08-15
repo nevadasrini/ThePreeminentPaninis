@@ -232,7 +232,7 @@ function displayMoreMatches(currResults)
         if(!d || d.trim() == ""){
             d = "Hi! I'm " + thisResult.name + " and my skills include: " + thisResult.skills;
         }
-        createCollectionItem(thisResult.name, d, null, `info.html?other=${thisResult.email}`, `chat.html?other=${thisResult.email}`);
+        createCollectionItem(thisResult.name, d, null, `otheraccount.html?other=${thisResult.email}`, `chat.html?other=${thisResult.email}`);
     }
 }
 
