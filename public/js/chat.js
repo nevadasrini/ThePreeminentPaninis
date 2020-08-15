@@ -15,7 +15,7 @@ auth.onAuthStateChanged(user => {
 function runChat (user)
 {
     // If the user is signed in, run.
-    let allMyConvos;
+    let allMyConvos = [];
     if (user)
     {
         // Retrieve all conversations where the logged-in user is a participant.
