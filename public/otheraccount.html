@@ -42,6 +42,63 @@
         <br><br>
     </div>
     
+ <!--SIGN UP MODAL: pops up when sign in is clicked-->
+ <div id="modal-signup" class="modal">
+  <div class="modal-content">
+    <h4>Sign up</h4><br />
+    <form id="signup-form">
+      <div class="input-field">
+        <input type="text" id="signup-name" name="name" required />
+        <label for="signup-name">Full Name</label>
+      </div>
+      <div class="input-field">
+        <input type="email" id="signup-email" name="email" required />
+        <label for="signup-email">Email address</label>
+      </div>
+      <div class="input-field">
+        <input type="password" id="signup-password" required />
+        <label for="signup-password">Choose password</label>
+      </div>
+      <div class="input-field">
+        <input type="number" id="signup-age" name="age" required />
+        <label for="signup-age">Age</label>
+      </div>
+      <div class="input-field">
+        <input type="text" id="signup-field" name="field" required />
+        <label for="signup-field">Field</label>
+      </div>
+      <div class="input-field">
+        <input type="text" id="signup-skills" name="skills" required />
+        <label for="signup-skills">Skills</label>
+      </div>
+      <div class="input-field">
+        <input type="text" id="signup-bio" name="bio" required />
+        <label for="signup-skills">Short Bio</label>
+      </div>
+      <button class="btn lavender darken-2 z-depth-0">Sign up</button>
+    </form>
+  </div>
+</div>
+
+<!-- LOGIN MODAL: pops up when login is clicked -->
+<div id="modal-login" class="modal">
+  <div class="modal-content">
+    <h4>Login</h4><br />
+    <form id="login-form">
+      <div class="input-field">
+        <input type="email" id="login-email" required />
+        <label for="login-email">Email address</label>
+      </div>
+      <div class="input-field">
+        <input type="password" id="login-password" required />
+        <label for="login-password">Your password</label>
+      </div>
+      <button class="btn lavender darken-2 z-depth-0">Login</button>
+    </form>
+  </div>
+</div>
+
+
   <!--  Scripts-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-app.js"></script>

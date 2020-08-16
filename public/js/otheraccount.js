@@ -36,7 +36,7 @@ function runOtherAccount(user)
                             ageElement.innerHTML = d.age;
                             fieldElement.innerHTML = d.field;
                             skillsElement.innerHTML = d.skills;
-                            bioElement.innerHTML = d.desc;
+                            bioElement.innerHTML = d.bio;
                         }
                     )
                 }

@@ -21,10 +21,10 @@ auth.onAuthStateChanged(user => {
                 const queryString = window.location.search;
                 const urlParams = new URLSearchParams(queryString);
                 const other = urlParams.get('other');
-                
+
                 checkPerson(other);
             }catch(error){
-                console.log(error);
+                console.error(error);
                 console.log("Loading existing chats.");
                 runChat(user);
             }
@@ -64,7 +64,9 @@ function checkPerson(other){
         else{
             newChat(otherInfo);
         }
-    }).catch(error => console.log(error));
+    }).catch(error => {console.error(error)
+        runChat(currUser);
+    });
 }
 
 function newChat(otherInfo){
