@@ -276,7 +276,7 @@ function runChat (user)
                     messageRow.appendChild(messageContent);
 
                     // Append the message element to the chat element.
-                    chatMessageList.append(messageRow);
+                    chatMessageList.appendChild(messageRow);
                 }
             )
         
@@ -327,7 +327,7 @@ function runChat (user)
                             par: convo.participants.indexOf(userInfo.email),//user.uid),
                             date: mm + '/' + dd,
                             text: message,
-                            index: numOfMess+1
+                            index: numOfMess + 1
                         })
                     
                     })
