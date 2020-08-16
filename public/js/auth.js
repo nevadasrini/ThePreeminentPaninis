@@ -1,7 +1,4 @@
-// Project: Song Converter
-// Names: Nivedha Srinivasan, Oreoluwa Alao
-// Date: 6/14/20
-// Task Description: Handles user authentication (log in, sign up, log out) and tracks user auth status
+
 
 // listen for auth status changes and logs them to the console
 
