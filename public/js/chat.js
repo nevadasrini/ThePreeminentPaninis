@@ -188,6 +188,9 @@ function renderConvoOnSideBar(doc){
     avatar.classList.add("circle");
     avatar.classList.add("blue");
     avatar.classList.add("small");
+    avatar.style.height = "40px";
+    avatar.style.width = "40px";
+    avatar.style.fontSize = "40px"
     avatar.textContent = "person";
 
     let titleText = document.createElement("div");
