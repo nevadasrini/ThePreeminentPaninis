@@ -132,11 +132,8 @@ function createCollectionItem(name, desc, profilePic, infoLink, messageLink){
     // ain't gonna work until create collection items is finished :(
     infoIcon.addEventListener('click', (e) =>{
         e.stopPropagation();
-        let id = e.target.parentElement.getAttribute('data-id')
-        songtitle = name.textContent;
-        console.log(songtitle);
-        console.log(songtext);
-        displayPage = window.open("otheraccount.html")
+        let id = e.target.parentElement.getAttribute('data-id');
+        displayPage = window.open("otheraccount.html");
         displayPage.onload = function () {
             const name = this.document.getElementById('name');
             const email = this.document.getElementById('email');
