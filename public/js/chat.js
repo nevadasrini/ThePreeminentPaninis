@@ -183,6 +183,13 @@ function renderConvoOnSideBar(doc){
     //let pfp = document.createElement("img");
     //pfp.src = convoData.pfp[1 - convoData.participants.indexOf(user.uid)];                        // Maybe change later, idk
     
+    let avatar = document.createElement("i");
+    avatar.classList.add("material-icons");
+    avatar.classList.add("circle");
+    avatar.classList.add("blue");
+    avatar.classList.add("small");
+    avatar.textContent = "person";
+
     let titleText = document.createElement("div");
     titleText.classList.add("title-text");
     titleText.innerText = convoData.names[1 - convoData.participants.indexOf(userInfo.email)];
@@ -209,8 +216,10 @@ function renderConvoOnSideBar(doc){
 
     // Creates new element.
     conversationElement = document.createElement("div");
+    conversationElement.classList.add("conversation");
     
     //conversationElement.appendChild(pfp);
+    conversationElement.appendChild(avatar);
     conversationElement.appendChild(titleText);
     conversationElement.appendChild(latestDate);
     conversationElement.appendChild(latestMessage);
@@ -245,20 +254,34 @@ function reloadSideBar(doc){
 
     // If the conversation element already exists in the sidebar
     let conversationElement = document.getElementById(doc.id);
+    conversationElement.classList.add("conversation");
 
     //let pfp = document.createElement("img");
     //pfp.src = convoData.pfp[1 - convoData.participants.indexOf(user.uid)];                        // Maybe change later, idk
     
-    let child = conversationElement.childNodes;
 
-    let titleText = child[0];
-    titleText.innerText = convoData.names[1 - convoData.participants.indexOf(userInfo.email)];
+    let avatar = document.createElement("i");
+    avatar.classList.add("material-icons");
+    avatar.classList.add("circle");
+    avatar.classList.add("blue");
+    avatar.textContent = "person";
 
-    let latestDate = child[1];
-    latestDate.innerText = convoData.date;
+    let titleText = document.createElement("div");
+    titleText.innerHTML = convoData.names[1 - convoData.participants.indexOf(userInfo.email)];
+    titleText.classList.add("title-text")
 
-    let latestMessage = child[2];
-    latestMessage.innerText = convoData.latestMessage;
+    let latestDate = document.createElement("div");
+    latestDate.innerHTML = convoData.date;
+    latestDate.classList.add("latest-date");
+
+    let latestMessage = document.createElement("div");
+    latestMessage.innerHTML = convoData.latestMessage;
+    latestMessage.classList.add("conversation-message");
+
+    conversationElement.appendChild(avater);
+    conversationElement.appendChild(titleText);
+    conversationElement.appendChild(latestDate);
+    conversationElement.appendChild(latestMessage);
 
     // Inserts the new sidebar element at the top.
     conversationList.insertBefore(conversationElement, conversationList.childNodes[0]);
