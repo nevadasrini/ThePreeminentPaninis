@@ -236,15 +236,7 @@ function renderConvoOnSideBar(doc){
     console.log(conversationElement.id==doc.id);
 
     // Inserts the new sidebar element at the top.
-    conversationList.insertBefore(conversationElement, conversationList.childNodes[0]);
-
-    if (currentConvo && currentConvo.id == doc.id){
-        db.collection("conversations").doc(currentConvo.id).get().then( doc=>{
-            currentConvo = doc;
-            reloadConversation(currentConvo);
-        });
-        
-    }
+    conversationList.insertBefore(conversationElement, conversationList.childNodes[0])
 }
 
 function reloadSideBar(doc){
