@@ -26,11 +26,13 @@ auth.onAuthStateChanged(user => {
             }catch(error){
                 console.error(error);
                 console.log("Loading existing chats.");
+                alert(1);
                 runChat(user);
             }
         })
     }
     else {
+        alert(2);
         runChat();
         console.log('user logged out')
     }
@@ -55,6 +57,7 @@ function checkPerson(other){
             })
             if (alreadyMade){
                 console.log("Already made");
+                alert(3);
                 runChat(currUser);
             }
             else{
@@ -65,6 +68,7 @@ function checkPerson(other){
             newChat(otherInfo);
         }
     }).catch(error => {console.error(error)
+        alert(4);
         runChat(currUser);
     });
 }
@@ -94,8 +98,9 @@ function newChat(otherInfo){
         text: "",
         index: 0
     });
-
+    alert(5);
     console.log("complete");
+    
     runChat(currUser);
     
 }
@@ -126,7 +131,6 @@ function runChat (user)
         // Iterate through the user's existing conversations.
         console.log("oops");
         console.log(allMyConvos);
-        allMyConvos.push(1);
         console.log(allMyConvos);
 
             // Attach a realtime event listener to the current conversation.
@@ -306,29 +310,35 @@ function runChat (user)
                     let today = new Date();
                     let dd = String(today.getDate()).padStart(2, '0');
                     let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-                
-                    // Update the current conversation by adding the new message. The message is in the format [who sent it? 0 or 1, date in mm/dd format, message string]. Also update the conversation by updating the date.
-                    let conversationReference = db.collection("conversations").doc(doc.id);
-                    conversationReference.update(
-                        {
-                            date: String(mm + "/" + dd),
-                            latestMessage: message
-                        }
-                    );
 
+                    let conversationReference = db.collection("conversations").doc(doc.id);
+                    
                     conversationReference.collection("messages").get().then( snapshot=>{
 
                         return snapshot.docs.length;
 
                     }).then( numOfMess =>{
-                        // Update the message fields.
-                    conversationReference.collection("messages").add(
-                        {
-                            par: convo.participants.indexOf(userInfo.email),//user.uid),
-                            date: mm + '/' + dd,
-                            text: message,
-                            index: numOfMess+1
-                        })
+
+                        var batch = db.batch();
+                        
+                        // Update the current conversation by adding the new message. The message is in the format [who sent it? 0 or 1, date in mm/dd format, message string]. Also update the conversation by updating the date.
+                        let conversationReference = db.collection("conversations").doc(doc.id);
+                        batch.update(conversationReference,
+                            {
+                                date: String(mm + "/" + dd),
+                                latestMessage: message
+                            }
+                        );
+                            // Update the message fields.
+                        let messRef = db.collection("conversations").doc(doc.id).collection("messages").doc();
+                        batch.set(messRef,
+                            {
+                                par: convo.participants.indexOf(userInfo.email),//user.uid),
+                                date: mm + '/' + dd,
+                                text: message,
+                                index: numOfMess+1
+                            });
+                        batch.commit();
                     
                     })
                 }
