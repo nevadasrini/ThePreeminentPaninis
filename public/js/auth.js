@@ -9,8 +9,9 @@
 function parseCSV(csv) {
     let x = csv.split(",");
     for(let i=0; i< x.length; i++){
-        x[i]=x[i].trim()
+        x[i]=x[i].toLowerCase().trim()
     }
+    return x;
 }
 
 auth.onAuthStateChanged(user => {
@@ -36,10 +37,10 @@ try{
     db.collection('users').doc(docID).set({
         name: signupForm.name.value,
         age: signupForm.age.value,
-        field: signupForm.field.value,
+        field: signupForm.field.value.toLowerCase(),
         skills: parseCSV(signupForm.skills.value),
         email: signupForm.email.value,
-        desc: signupForm.bio.value
+        bio: signupForm.bio.value
     })
 
     // sign up the user

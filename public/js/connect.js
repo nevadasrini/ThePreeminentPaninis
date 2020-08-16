@@ -74,7 +74,7 @@ function toggleHidden(matched) {
     }
 }
 
-function createCollectionItem(name, desc, profilePic, infoLink, messageLink){
+function createCollectionItem(name, bio, profilePic, infoLink, messageLink){
     let avatar = null;
 
     let item = document.createElement("li");
@@ -86,7 +86,7 @@ function createCollectionItem(name, desc, profilePic, infoLink, messageLink){
     title.classList.add("title");
     
     title.textContent = name;
-    text.textContent = desc;
+    text.textContent = bio;
 
     if (profilePic != null){
         avatar = document.createElement("img");
@@ -225,7 +225,7 @@ function displayMoreMatches(currResults)
     {
         count += 1;
         let thisResult = storedResults[i][1];
-        let d = thisResult.desc;
+        let d = thisResult.bio;
         if(!d || d.trim() == ""){
             d = "Hi! I'm " + thisResult.name + " and my skills include: " + thisResult.skills;
         }

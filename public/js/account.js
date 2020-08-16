@@ -59,7 +59,7 @@ form.addEventListener('submit', (e) =>{
 
 function updateAccount(user){
     if (user)
-    {
+    {   
         db.collection('users').doc(user.email).set({
             name: form.name.value,
             age: form.age.value,
