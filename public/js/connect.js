@@ -129,7 +129,7 @@ function createCollectionItem(name, bio, profilePic, infoLink, messageLink){
     
     document.getElementsByClassName("collection")[0].appendChild(item);
 
-    // ain't gonna work until create collection items is finished :(
+   /* // ain't gonna work until create collection items is finished :(
     infoIcon.addEventListener('click', (e) =>{
         e.stopPropagation();
         let id = e.target.parentElement.getAttribute('data-id');
@@ -140,7 +140,7 @@ function createCollectionItem(name, bio, profilePic, infoLink, messageLink){
             name.innerText = "HEy";
             email.innerText = "this is nivs";
         };
-    })
+    })*/
 }
 
 let storedResults;
