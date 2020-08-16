@@ -27,12 +27,19 @@ auth.onAuthStateChanged(user => {
 // sign up
 try{
     const signupForm = document.querySelector('#signup-form');
+    const ele = document.getElementsByName('position');
+    let pos = "Job Seeker";
+    for(i = 0; i < ele.length; i++) { 
+        if(ele[i].checked) 
+            pos = ele[i].value;
+    } 
     signupForm.addEventListener('submit', (e) => {
     // prevent refresh (losing info)
     e.preventDefault();
     // get user info
     const email = signupForm['signup-email'].value;
     const password = signupForm['signup-password'].value;
+    const numbersign = signupForm['signup-number'].value;
     docID = signupForm.email.value;
     db.collection('users').doc(docID).set({
         name: signupForm.name.value,
@@ -40,7 +47,9 @@ try{
         field: signupForm.field.value.toLowerCase(),
         skills: parseCSV(signupForm.skills.value),
         email: signupForm.email.value,
-        bio: signupForm.bio.value
+        bio: signupForm.bio.value,
+        number: numbersign,
+        position: pos
     })
 
     // sign up the user

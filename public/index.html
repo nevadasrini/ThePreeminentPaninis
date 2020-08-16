@@ -146,6 +146,17 @@
           <input type="password" id="signup-password" required />
           <label for="signup-password">Choose password</label>
         </div>
+        <label>I am a(n)</label>
+        <p>
+          <label>
+            <input id="employer" class="with-gap" name="position" type="radio" value="employer"/>
+            <span>Employer</span><br>
+          </label>
+          <label>
+            <input id="seeker" class="with-gap" name="position" type="radio" value="job seeker"/>
+            <span>Job Seeker</span>
+          </label>
+        </p>
         <div class="input-field">
           <input type="number" id="signup-age" name="age" required />
           <label for="signup-age">Age</label>
@@ -160,7 +171,11 @@
         </div>
         <div class="input-field">
           <input type="text" id="signup-bio" name="bio" required />
-          <label for="signup-skills">Short Bio</label>
+          <label for="signup-bio">Short Bio</label>
+        </div>
+        <div class="input-field">
+          <input type="text" id="signup-number" name="number"/>
+          <label for="signup-number">Phone Number (Optional)</label>
         </div>
         <button class="btn lavender darken-2 z-depth-0">Sign up</button>
       </form>

@@ -4,6 +4,7 @@ const ageElement = document.getElementById('age');
 const fieldElement = document.getElementById('field');
 const skillsElement = document.getElementById('skills');
 const bioElement = document.getElementById('bio');
+const posElement = document.getElementById('pos');
 
 
 
@@ -37,6 +38,7 @@ function runOtherAccount(user)
                             fieldElement.innerHTML = d.field;
                             skillsElement.innerHTML = d.skills;
                             bioElement.innerHTML = d.bio;
+                            posElement.innerHTML = d.position;
                         }
                     )
                 }
