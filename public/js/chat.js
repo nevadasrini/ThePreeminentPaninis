@@ -239,6 +239,7 @@ function renderConvoOnSideBar(doc){
     conversationList.insertBefore(conversationElement, conversationList.childNodes[0])
 }
 
+//reloads siderbar elements and updates them
 function reloadSideBar(doc){
     let convoData = doc.data();
     // Create the new sidebar element to be added.
@@ -251,29 +252,18 @@ function reloadSideBar(doc){
     //let pfp = document.createElement("img");
     //pfp.src = convoData.pfp[1 - convoData.participants.indexOf(user.uid)];                        // Maybe change later, idk
     
+    let children = conversationElement.childNodes;
 
-    let avatar = document.createElement("i");
-    avatar.classList.add("material-icons");
-    avatar.classList.add("circle");
-    avatar.classList.add("blue");
-    avatar.textContent = "person";
+    //let avatar = children[0]; not needed rnow
 
-    let titleText = document.createElement("div");
+    let titleText = children[1];
     titleText.innerHTML = convoData.names[1 - convoData.participants.indexOf(userInfo.email)];
-    titleText.classList.add("title-text")
 
-    let latestDate = document.createElement("div");
+    let latestDate = children[2];
     latestDate.innerHTML = convoData.date;
-    latestDate.classList.add("latest-date");
 
-    let latestMessage = document.createElement("div");
+    let latestMessage = children[3];
     latestMessage.innerHTML = convoData.latestMessage;
-    latestMessage.classList.add("conversation-message");
-
-    conversationElement.appendChild(avater);
-    conversationElement.appendChild(titleText);
-    conversationElement.appendChild(latestDate);
-    conversationElement.appendChild(latestMessage);
 
     // Inserts the new sidebar element at the top.
     conversationList.insertBefore(conversationElement, conversationList.childNodes[0]);
@@ -331,6 +321,7 @@ function displayConversation(doc){
         });
 }
 
+//adds on any new messages to the open conversation
 function reloadConversation(doc){
     let convo = doc.data();
     // First change the title.
@@ -360,6 +351,7 @@ function reloadConversation(doc){
     ).catch(error=>console.error(error));    
 }
 
+//loads message
 function loadMessage(convo,snapshot){
     //alert("Yes");
     console.log(snapshot.docs);
@@ -386,12 +378,24 @@ function loadMessage(convo,snapshot){
         else{//user.uid){
             // If the other person sent it
             messageRow.classList.add("other-message");
-            let messageImage = document.createElement("img");
+            //let messageImage = document.createElement("img");
             //messageImage.src = convo.pfp[1 - convo.participants.indexOf(userInfo.email)];//user.uid)];
-            messageImage.height = "40px";
-            messageImage.width = "40px";
-            messageContent.appendChild(messageImage);
+            //messageImage.height = "40px";
+            //messageImage.width = "40px";
+            //messageContent.appendChild(messageImage);
+            // Load the avatar.
+            let avatar = document.createElement("i");
+            avatar.classList.add("material-icons");
+            avatar.classList.add("circle");
+            avatar.classList.add("blue");
+            avatar.style.fontSize = "60px";
+            avatar.style.width = "60px";
+            avatar.style.height = "40px;"
+            avatar.textContent = "person";
+            messageContent.appendChild(avatar);
         }
+
+        
 
         // The message text is the third element in the array.
         let messageText = document.createElement("div");
