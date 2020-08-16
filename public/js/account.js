@@ -65,7 +65,7 @@ function updateAccount(user){
         db.collection('users').doc(user.email).set({
             name: form.name.value,
             age: form.age.value,
-            field: form.field.value,
+            field: form.field.value.toLowerCase(),
             skills: parseCSV(form.skills.value),
             bio: form.bio.value,
             email: user.email,
