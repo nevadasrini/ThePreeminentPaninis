@@ -280,7 +280,7 @@ function runChat (user)
                     messageRow.appendChild(messageContent);
 
                     // Append the message element to the chat element.
-                    chatMessageList.append(messageRow);
+                    chatMessageList.appendChild(messageRow);
                 }
             )
         
@@ -322,13 +322,13 @@ function runChat (user)
                         var batch = db.batch();
                         
                         // Update the current conversation by adding the new message. The message is in the format [who sent it? 0 or 1, date in mm/dd format, message string]. Also update the conversation by updating the date.
-                        let conversationReference = db.collection("conversations").doc(doc.id);
-                        batch.update(conversationReference,
-                            {
-                                date: String(mm + "/" + dd),
-                                latestMessage: message
-                            }
-                        );
+                       // let conversationReference = db.collection("conversations").doc(doc.id);
+                       // batch.update(conversationReference,
+                        //    {
+                        //        date: String(mm + "/" + dd),
+                        //        latestMessage: message
+                        //    }
+                        //);
                             // Update the message fields.
                         let messRef = db.collection("conversations").doc(doc.id).collection("messages").doc();
                         batch.set(messRef,
