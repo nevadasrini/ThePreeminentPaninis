@@ -394,12 +394,24 @@ function loadMessage(convo,snapshot){
         else{//user.uid){
             // If the other person sent it
             messageRow.classList.add("other-message");
-            let messageImage = document.createElement("img");
+            //let messageImage = document.createElement("img");
             //messageImage.src = convo.pfp[1 - convo.participants.indexOf(userInfo.email)];//user.uid)];
-            messageImage.height = "40px";
-            messageImage.width = "40px";
-            messageContent.appendChild(messageImage);
+            //messageImage.height = "40px";
+            //messageImage.width = "40px";
+            //messageContent.appendChild(messageImage);
+            // Load the avatar.
+            let avatar = document.createElement("i");
+            avatar.classList.add("material-icons");
+            avatar.classList.add("circle");
+            avatar.classList.add("blue");
+            avatar.style.fontSize = "60px";
+            avatar.style.width = "60px";
+            avatar.style.height = "40px;"
+            avatar.textContent = "person";
+            messageContent.appendChild(avatar);
         }
+
+        
 
         // The message text is the third element in the array.
         let messageText = document.createElement("div");
