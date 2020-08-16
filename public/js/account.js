@@ -70,7 +70,7 @@ function updateAccount(user){
             bio: form.bio.value,
             email: user.email,
             number: form.number.value,
-        })
+        }).then( function() { document.location.href = "index.html" })
     }
     else {
 
