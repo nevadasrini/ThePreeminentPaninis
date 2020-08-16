@@ -5,6 +5,7 @@
 
 // listen for auth status changes and logs them to the console
 
+
 function parseCSV(csv) {
     let x = csv.split(",");
     for(let i=0; i< x.length; i++){
@@ -23,8 +24,9 @@ auth.onAuthStateChanged(user => {
 })
 
 // sign up
-const signupForm = document.querySelector('#signup-form');
-signupForm.addEventListener('submit', (e) => {
+try{
+    const signupForm = document.querySelector('#signup-form');
+    signupForm.addEventListener('submit', (e) => {
     // prevent refresh (losing info)
     e.preventDefault();
     // get user info
@@ -35,7 +37,7 @@ signupForm.addEventListener('submit', (e) => {
         name: signupForm.name.value,
         age: signupForm.age.value,
         field: signupForm.field.value,
-        skills: [signupForm.skills.value], //parseCSV(signupForm.skills.value),
+        skills: parseCSV(signupForm.skills.value),
         email: signupForm.email.value,
         desc: signupForm.bio.value
     })
@@ -53,20 +55,31 @@ signupForm.addEventListener('submit', (e) => {
         })
     })
 })
+}
+catch (error){
+    console.error(error);
+}
 
-// log out
-const logout = document.querySelector('#logout');
-logout.addEventListener('click', (e) => {
+
+try{
+    // log out
+    const logout = document.querySelector('#logout');
+    logout.addEventListener('click', (e) => {
     // prevent default actions (refresh)
     e.preventDefault()
     auth.signOut().then(() => {
-        //
+    //
     })
 })
+}
+catch (error) {
+    console.error(error);
+}
 
-//  login
-const loginForm = document.querySelector('#login-form');
-loginForm.addEventListener('submit', (e) => {
+try{
+    //  login
+    const loginForm = document.querySelector('#login-form');
+    loginForm.addEventListener('submit', (e) => {
     // prevent default actions (refresh)
     e.preventDefault()
 
@@ -82,3 +95,8 @@ loginForm.addEventListener('submit', (e) => {
         loginForm.reset();
     })
 })
+}
+catch (error){
+    console.error(error);
+}
+
