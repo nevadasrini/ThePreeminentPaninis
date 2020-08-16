@@ -152,7 +152,7 @@ function matchUser(){
     //then search database
     if(!thisUserInfo){
         setTimeout(function(){matchUser()}, 200);
-        return 0;
+        return false;
     }
     let currUser = thisUserInfo;
 
@@ -177,6 +177,7 @@ function matchUser(){
                         }
                     })
                     skillScore.push([same, doc.data()]); 
+    
                 }
                 else if (!doc.exists){
                     //No matches found
@@ -186,7 +187,7 @@ function matchUser(){
                         curr.classList.remove("hide");
                     }
                     noMatch = true;
-                    return 0;
+                    return false;
                 }
                     }); 
         if(!noMatch){
@@ -206,13 +207,13 @@ function matchUser(){
                 skillScore[k]=currMax;
             }
             storedResults = skillScore;
-            let returner = displayMoreMatches(0);
+            currentResultCount += displayMoreMatches(0);
             toggleHidden(true);
-            return returner;
+            return true;
         }
     }).catch((error)=>{
         console.log(error);
-        return 0;
+        return false;
     });
        
 }
@@ -228,8 +229,9 @@ function displayMoreMatches(currResults)
         if(!d || d.trim() == ""){
             d = "Hi! I'm " + thisResult.name + " and my skills include: " + thisResult.skills;
         }
-        createCollectionItem(thisResult.name, d, null, `info.html?other=${thisResult.email}`, `chat.html?other=${thisResult.email}`);
+        createCollectionItem(thisResult.name, d, null, `otheraccount.html?other=${thisResult.email}`, `chat.html?other=${thisResult.email}`);
     }
+    return count;
 }
 
 function checkIfEmpty() {
@@ -247,7 +249,7 @@ let findBtn = document.getElementById('find-button');
 let moreBtn = document.getElementById('load-more-button');
 
 findBtn.addEventListener("click", function () {
-    currentResultCount += matchUser();
+    matchUser();
 })
 moreBtn.addEventListener("click", function () {
     currentResultCount += displayMoreMatches(currentResultCount);
