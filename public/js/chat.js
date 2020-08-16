@@ -86,15 +86,20 @@ function newChat(otherInfo){
         //pfp: [userInfo.pfp, otherInfo.pfp]
     })
 
-    db.collection('conversations').doc(convoRef.id).collection("messages").doc().set({
+    let messRef = convoRef.collection("messages").doc()
+    messRef.set({
         date: mm + '/' + dd,
         par: 0,
         text: "",
         index: 0
     });
-    console.log("complete");
     
-    runChat(currUser);
+    convoRef.collection("messages").doc(messRef.id).delete().then(thing=>{
+        console.log("complete");
+        runChat(currUser);
+    }).catch(error=>console.error(error));
+
+    
     
 }
 
