@@ -90,6 +90,7 @@ function newChat(otherInfo){
         date: mm + '/' + dd,
         par: 1,
         text: "hiya",
+        index: 1
     });
 
     console.log("complete");
@@ -100,6 +101,7 @@ function newChat(otherInfo){
 function runChat (user)
 {   
     // If the user is signed in, run.
+    let currentConvo;
     let allMyConvos = [];
     let collectionRef;
     if (user)
@@ -167,7 +169,7 @@ function runChat (user)
                 let conversationElement;
                 try {
                     // Can identify if an element already exists for this conversation because the stored conversationId is equal to the element's ID.
-                    conversationElement = document.getElementById(convoData.id);
+                    conversationElement = document.getElementById(doc.id);
                     // Removes existing element if it is found.
                     conversationList.removeChild(conversationElement);
                 } catch (error) {
@@ -183,11 +185,12 @@ function runChat (user)
 
                 // Attaches event listener so the conversation can be displayed if the element in the sidebar is clicked.
                 conversationElement.addEventListener("click", function () {
+                    currentConvo = doc;
                     displayConversation(doc);
                 })
 
                 // Sets stored conversation.conversationId equal to the element's ID.
-                conversationElement.id = convoData.id;
+                conversationElement.id = doc.id;
 
                 // Inserts the new sidebar element at the top.
                 conversationList.insertBefore(conversationElement, conversationList.childNodes[0]);
@@ -231,12 +234,12 @@ function runChat (user)
                     messageContent.classList.add("message-content");
 
                     // If the message's first element (either 0 or 1) matches the index of the logged-in user's uid in the "participant" array, the message was sent by the logged-in user and should be displayed as "your message."
-                    if(convo.participants[message.par] == user.uid){
+                    if(convo.participants[message.par] == convo.participants.indexOf(userInfo.email)){//user.uid)
                         // If you sent it
                         messageRow.classList.add("you-message");
                     }
                     // Otherwise, display as the other person's message. Maybe change to an "else" statement.
-                    else if(convo.participants[message.par] != userInfo.email){//user.uid){
+                    else{//user.uid){
                         // If the other person sent it
                         messageRow.classList.add("other-message");
                         let messageImage = document.createElement("img");
@@ -272,7 +275,7 @@ function runChat (user)
             event.preventDefault();
             // If the enter key is pressed and released, try to send the currently-typed message.
             if (event.keyCode === 13) {
-                sendMessage(doc);
+                sendMessage(currentConvo);
             }});
 
             });
@@ -315,6 +318,7 @@ function runChat (user)
                             text: message,
                             index: numOfMess+1
                         })
+                    displayConversation(currentConvo);
                     })
                 }
             }
