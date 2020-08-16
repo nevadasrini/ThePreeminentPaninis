@@ -26,13 +26,11 @@ auth.onAuthStateChanged(user => {
             }catch(error){
                 console.error(error);
                 console.log("Loading existing chats.");
-                alert(1);
                 runChat(user);
             }
         })
     }
     else {
-        alert(2);
         runChat();
         console.log('user logged out')
     }
@@ -57,7 +55,6 @@ function checkPerson(other){
             })
             if (alreadyMade){
                 console.log("Already made");
-                alert(3);
                 runChat(currUser);
             }
             else{
@@ -68,7 +65,6 @@ function checkPerson(other){
             newChat(otherInfo);
         }
     }).catch(error => {console.error(error)
-        alert(4);
         runChat(currUser);
     });
 }
@@ -90,15 +86,12 @@ function newChat(otherInfo){
         //pfp: [userInfo.pfp, otherInfo.pfp]
     })
 
-    alert(convoRef.id);
-
     db.collection('conversations').doc(convoRef.id).collection("messages").doc().set({
         date: mm + '/' + dd,
         par: 0,
         text: "",
         index: 0
     });
-    alert(5);
     console.log("complete");
     
     runChat(currUser);
@@ -136,9 +129,11 @@ function runChat (user)
             // Attach a realtime event listener to the current conversation.
             collectionRef.onSnapshot( function(querySnapshot){
                 // If the data changes, call updateMyConvo w/ their data as an argument.
-                querySnapshot.forEach((doc)=>{
-                    updateMyConvo(doc);
-                })
+                querySnapshot.docChanges().forEach(function(change) {
+                    updateMyConvo(change.doc);
+                });
+        
+                
                 
             });
 
@@ -201,7 +196,7 @@ function runChat (user)
                 // Inserts the new sidebar element at the top.
                 conversationList.insertBefore(conversationElement, conversationList.childNodes[0]);
 
-                if (currentConvo){
+                if (currentConvo && currentConvo.id == doc.id){
                     db.collection("conversations").doc(currentConvo.id).get().then( doc=>{
                         currentConvo = doc;
                         displayConversation(currentConvo);
@@ -320,15 +315,13 @@ function runChat (user)
                     }).then( numOfMess =>{
 
                         var batch = db.batch();
-                        
                         // Update the current conversation by adding the new message. The message is in the format [who sent it? 0 or 1, date in mm/dd format, message string]. Also update the conversation by updating the date.
-                       // let conversationReference = db.collection("conversations").doc(doc.id);
-                       // batch.update(conversationReference,
-                        //    {
-                        //        date: String(mm + "/" + dd),
-                        //        latestMessage: message
-                        //    }
-                        //);
+                        batch.update(conversationReference,
+                            {
+                                date: String(mm + "/" + dd),
+                                latestMessage: message
+                            }
+                        );
                             // Update the message fields.
                         let messRef = db.collection("conversations").doc(doc.id).collection("messages").doc();
                         batch.set(messRef,
