@@ -50,7 +50,7 @@ function checkPerson(other){
             snapshot.docs.forEach(doc =>{
                 console.log(doc.data().participants);
                 doc.data().participants.forEach(part =>{
-                    alreadyMade = (part == otherInfo.email);
+                    if(part == otherInfo.email) alreadyMade=true;
                 })
             })
             if (alreadyMade){
@@ -88,9 +88,9 @@ function newChat(otherInfo){
 
     db.collection('conversations').doc(convoRef.id).collection("messages").doc().set({
         date: mm + '/' + dd,
-        par: 1,
-        text: "hiya",
-        index: 1
+        par: 0,
+        text: "",
+        index: 0
     });
 
     console.log("complete");
@@ -188,12 +188,20 @@ function runChat (user)
                     currentConvo = doc;
                     displayConversation(doc);
                 })
-
+                
                 // Sets stored conversation.conversationId equal to the element's ID.
                 conversationElement.id = doc.id;
 
                 // Inserts the new sidebar element at the top.
                 conversationList.insertBefore(conversationElement, conversationList.childNodes[0]);
+
+                if (currentConvo){
+                    db.collection("conversations").doc(currentConvo.id).get().then( doc=>{
+                        currentConvo = doc;
+                        displayConversation(currentConvo);
+                    });
+                    
+                }
             }
         
 
@@ -234,8 +242,9 @@ function runChat (user)
                     messageContent.classList.add("message-content");
 
                     // If the message's first element (either 0 or 1) matches the index of the logged-in user's uid in the "participant" array, the message was sent by the logged-in user and should be displayed as "your message."
-                    if(convo.participants[message.par] == convo.participants.indexOf(userInfo.email)){//user.uid)
+                    if(convo.participants[message.par] == userInfo.email){//user.uid)
                         // If you sent it
+                        
                         messageRow.classList.add("you-message");
                     }
                     // Otherwise, display as the other person's message. Maybe change to an "else" statement.
@@ -318,7 +327,7 @@ function runChat (user)
                             text: message,
                             index: numOfMess+1
                         })
-                    displayConversation(currentConvo);
+                    
                     })
                 }
             }
