@@ -285,7 +285,6 @@ function displayConversation(doc){
     let chatTitle = document.getElementById("chat-title");
     chatTitle.innerHTML = `
     <span id="chat-title-span"></span>
-    <img src="trashlogo.jpg" alt="Delete Conversation" height = "40px" width = "40px" />
     `;
     let chatTitleSpan = document.getElementById("chat-title-span");
     console.log(chatTitleSpan);
